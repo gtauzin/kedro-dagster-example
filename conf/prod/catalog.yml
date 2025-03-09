@@ -32,33 +32,3 @@
   type: kedro_mlflow.io.models.MlflowModelTrackingDataset
   flavor: mlflow.sklearn
   artifact_path: "{namespace}/{variant}/regressor"
-
-"{namespace}.{variant}.study":
-  type: optuna.StudyDataset
-  backend: sqlite
-  database: data/06_models/prod/{namespace}/{variant}/optuna.db
-  study_name: "{namespace}.{variant}"
-  load_args:
-    sampler:
-      class: TPESampler
-      n_startup_trials: 2
-      n_ei_candidates: 5
-    pruner:
-      class: NopPruner
-  versioned: true
-
-"{namespace}.{variant}.tuning_node_done_{i_tuning_node}":
-  type: MemoryDataset
-
-"{namespace}.{variant}.study_artifact":
-  type: kedro_mlflow.io.artifacts.MlflowArtifactDataset
-  dataset:
-    type: optuna.StudyDataset
-    backend: sqlite
-    database: data/06_models/prod/{namespace}/{variant}/optuna_sqlite.db
-    study_name: "{namespace}.{variant}"
-  artifact_path: "{namespace}/{variant}"
-
-"{namespace}.{variant}.{process}.best_params":
-  type: pandas.ParquetDataset
-  filepath: data/06_models/prod/{namespace}/{variant}/{process}/best_params.pq

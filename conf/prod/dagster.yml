@@ -9,9 +9,14 @@ executors:
   sequential_executor:
     in_process:
 
-  multiprocessing_executor:
+  multiprocess_executor:
     multiprocess:
       max_concurrent: 2
+
+
+schedules:
+  daily_schedule:
+    cron_schedule: "30 2 * * *"
 
 jobs:
   reviews_predictor_data_processing_base:
@@ -20,7 +25,8 @@ jobs:
       node_namespace: reviews_predictor
       tags:
       - base
-    executor: in_process
+    executor: sequential_executor
+    schedule: daily_schedule
 
   reviews_predictor_data_science_base:
     pipeline:
@@ -29,6 +35,7 @@ jobs:
       tags:
       - base
     executor: multiprocess_executor
+    schedule: daily_schedule
 
   price_predictor_data_processing_base:
     pipeline:
@@ -36,7 +43,8 @@ jobs:
       node_namespace: price_predictor
       tags:
       - base
-    executor: in_process
+    executor: sequential_executor
+    schedule: daily_schedule
 
   price_predictor_data_science_base:
     pipeline:
@@ -44,4 +52,5 @@ jobs:
       node_namespace: price_predictor
       tags:
       - base
-    executor: in_process
+    executor: sequential_executor
+    schedule: daily_schedule

@@ -56,7 +56,7 @@ project.
 You can explore the mapping of the Kedro-based Dagster code location by running:
 
 ```bash
-kedro dagster dev
+KEDRO_ENV=prod kedro dagster dev
 ```
 
 This will prompt you to open the Dagster UI. There, you'll be able to check your
