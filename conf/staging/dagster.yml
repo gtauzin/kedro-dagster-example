@@ -1,0 +1,63 @@
+dev:
+  log_level: "info"
+  log_format: "colored"
+  port: "3000"
+  host: "127.0.0.1"
+  live_data_poll_rate: "2000"
+
+executors:
+  sequential_executor:
+    in_process:
+
+  multiprocessing_executor:
+    multiprocess:
+      max_concurrent: 2
+
+  k8s_executor:
+    k8s_job_executor:
+      container_config:
+        resources:
+          requests:
+          - cpu": 200m
+          - memory: 32Mi
+
+jobs:
+  reviews_predictor_data_processing_candidate1:
+    pipeline:
+      pipeline_name: data_processing
+      node_namespace: reviews_predictor
+      tags:
+      - candidate1
+    executor: in_process
+
+  reviews_predictor_data_science_candidate1:
+    pipeline:
+      pipeline_name: data_science
+      node_namespace: reviews_predictor
+      tags:
+      - candidate1
+    executor: multiprocess_executor
+
+  reviews_predictor_model_tuning_candidate1:
+    pipeline:
+      pipeline_name: model_tuning
+      node_namespace: reviews_predictor
+      tags:
+      - candidate1
+    executor: k8s_executor
+
+  price_predictor_data_processing_candidate1:
+    pipeline:
+      pipeline_name: data_processing
+      node_namespace: price_predictor
+      tags:
+      - candidate1
+    executor: in_process
+
+  price_predictor_data_science_candidate1:
+    pipeline:
+      pipeline_name: data_science
+      node_namespace: price_predictor
+      tags:
+      - candidate1
+    executor: in_process

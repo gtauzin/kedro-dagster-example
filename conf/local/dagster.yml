@@ -14,19 +14,6 @@ executors:
       max_concurrent: 2
 
 jobs:
-  data_processing:
-    pipeline:
-      pipeline_name: data_processing
-      node_names:
-      - price_predictor.preprocess_shuttles_node
-    executor: multiprocess
-
-  data_science:
-    pipeline:
-      pipeline_name: data_science
-    executor: multiprocess
-    schedule: daily
-
   reviews_predictor_base_data_processing:
     pipeline:
       pipeline_name: data_processing
@@ -50,30 +37,6 @@ jobs:
       tags:
       - base
     executor: multiprocess
-
-  reviews_predictor_data_processing_candidate1:
-    pipeline:
-      pipeline_name: data_processing
-      node_namespace: reviews_predictor
-      tags:
-      - candidate1
-    executor: in_process
-
-  reviews_predictor_data_science_candidate1:
-    pipeline:
-      pipeline_name: data_science
-      node_namespace: reviews_predictor
-      tags:
-      - candidate1
-    executor: in_process
-
-  reviews_predictor_model_tuning_candidate1:
-    pipeline:
-      pipeline_name: model_tuning
-      node_namespace: reviews_predictor
-      tags:
-      - candidate1
-    executor: in_process
 
   price_predictor_base_data_processing:
     pipeline:
@@ -99,26 +62,26 @@ jobs:
       - base
     executor: multiprocess
 
-  price_predictor_data_processing_candidate1:
+  price_predictor_data_processing_test1:
     pipeline:
       pipeline_name: data_processing
       node_namespace: price_predictor
       tags:
-      - candidate1
+      - test1
     executor: in_process
 
-  price_predictor_data_science_candidate1:
+  price_predictor_data_science_test1:
     pipeline:
       pipeline_name: data_science
       node_namespace: price_predictor
       tags:
-      - candidate1
+      - test1
     executor: in_process
 
-  price_predictor_model_tuning_candidate1:
+  price_predictor_model_tuning_test1:
     pipeline:
       pipeline_name: model_tuning
       node_namespace: price_predictor
       tags:
-      - candidate1
+      - test1
     executor: in_process

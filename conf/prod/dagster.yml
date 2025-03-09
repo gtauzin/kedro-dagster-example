@@ -1,0 +1,47 @@
+dev:
+  log_level: "info"
+  log_format: "colored"
+  port: "3000"
+  host: "127.0.0.1"
+  live_data_poll_rate: "2000"
+
+executors:
+  sequential_executor:
+    in_process:
+
+  multiprocessing_executor:
+    multiprocess:
+      max_concurrent: 2
+
+jobs:
+  reviews_predictor_data_processing_base:
+    pipeline:
+      pipeline_name: data_processing
+      node_namespace: reviews_predictor
+      tags:
+      - base
+    executor: in_process
+
+  reviews_predictor_data_science_base:
+    pipeline:
+      pipeline_name: data_science
+      node_namespace: reviews_predictor
+      tags:
+      - base
+    executor: multiprocess_executor
+
+  price_predictor_data_processing_base:
+    pipeline:
+      pipeline_name: data_processing
+      node_namespace: price_predictor
+      tags:
+      - base
+    executor: in_process
+
+  price_predictor_data_science_base:
+    pipeline:
+      pipeline_name: data_science
+      node_namespace: price_predictor
+      tags:
+      - base
+    executor: in_process

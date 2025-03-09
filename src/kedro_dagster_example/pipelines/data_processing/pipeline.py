@@ -56,9 +56,9 @@ def create_pipeline(**kwargs) -> Pipeline:
             pipeline(
                 data_processing,
                 inputs={
-                    "companies": "companies",
-                    "shuttles": "shuttles",
-                    "reviews": "reviews",
+                    "companies_partition": "companies_partition",
+                    "shuttles_partition": "shuttles_partition",
+                    "reviews_partition": "reviews_partition",
                 },
                 namespace=namespace,
                 tags=settings.DYNAMIC_PIPELINES_MAPPING[namespace],

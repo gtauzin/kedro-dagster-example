@@ -14,19 +14,19 @@
 
 "{namespace}.preprocessed_companies":
   type: pandas.ParquetDataset
-  filepath: data/02_intermediate/dev/{namespace}/preprocessed_companies.pq
+  filepath: data/02_intermediate/prod/{namespace}/preprocessed_companies.pq
   metadata:
     description: "A Parquet file containing preprocessed companies."
 
 "{namespace}.preprocessed_shuttles":
   type: pandas.ParquetDataset
-  filepath: data/02_intermediate/dev/{namespace}/preprocessed_shuttles.pq
+  filepath: data/02_intermediate/prod/{namespace}/preprocessed_shuttles.pq
   metadata:
     description: "A Parquet file containing preprocessed shuttles."
 
 "{namespace}.model_input_table":
   type: pandas.ParquetDataset
-  filepath: data/03_primary/dev/{namespace}/model_input_table.pq
+  filepath: data/03_primary/prod/{namespace}/model_input_table.pq
 
 "{namespace}.{variant}.regressor":
   type: kedro_mlflow.io.models.MlflowModelTrackingDataset
@@ -36,7 +36,7 @@
 "{namespace}.{variant}.study":
   type: kedro_dataset_experimental.optuna.StudyDataset
   backend: sqlite
-  database: data/06_models/dev/{namespace}/{variant}/optuna.db
+  database: data/06_models/prod/{namespace}/{variant}/optuna.db
   study_name: "{namespace}.{variant}"
   load_args:
     sampler:
@@ -55,10 +55,10 @@
   dataset:
     type: kedro_dataset_experimental.optuna.StudyDataset
     backend: sqlite
-    database: data/06_models/dev/{namespace}/{variant}/optuna_sqlite.db
+    database: data/06_models/prod/{namespace}/{variant}/optuna_sqlite.db
     study_name: "{namespace}.{variant}"
   artifact_path: "{namespace}/{variant}"
 
 "{namespace}.{variant}.{process}.best_params":
   type: pandas.ParquetDataset
-  filepath: data/06_models/dev/{namespace}/{variant}/{process}/best_params.pq
+  filepath: data/06_models/prod/{namespace}/{variant}/{process}/best_params.pq
