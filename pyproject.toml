@@ -20,7 +20,7 @@ readme.file = "README.md"
 requires-python = ">=3.11, <3.14"
 dependencies = [
     "kedro>=0.19.11",
-    "kedro-datasets[pandas-csvdataset, pandas-exceldataset, pandas-parquetdataset, optuna-studgitydataset]>=3.0",
+    "kedro-datasets[pandas-csvdataset, pandas-exceldataset, pandas-parquetdataset, optuna-studydataset]>=3.0",
     "kedro-dagster",
     "kedro-mlflow>=0.14.3",
     "dagster==1.9.6",

@@ -15,8 +15,8 @@ Additionally, this project makes use of:
 
 - [`mlflow`](https://mlflow.org/) through the [`kedro-mlflow`](https://github.com/Galileo-Galilei/kedro-mlflow)
   for experiment tracking, model registry, and deployment.
-- [`optuna`](https://optuna.org/) through a new Kedro dataset. See the `kedro_dataset_experimental.optuna.StudyDataset`
-  [documentation](https://docs.kedro.org/projects/kedro-datasets/en/latest/api/kedro_datasets_experimental.kedro_dataset_experimental.optuna.StudyDataset.html) for more details.
+- [`optuna`](https://optuna.org/) through a new Kedro dataset. See the `optuna.StudyDataset`
+  [documentation](https://docs.kedro.org/projects/kedro-datasets/en/latest/api/kedro_datasets_experimental.optuna.StudyDataset.html) for more details.
 
 ## Installation
 
