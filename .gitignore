@@ -156,11 +156,10 @@ cython_debug/
 # End of https://www.toptal.com/developers/gitignore/api/python,jupyternotebooks
 
 # Dagster files
-tmp**
+.dagster/**
+!.dagster/.gitkeep
 
 # Kedro files
-conf/local/**
-!conf/local/.gitkeep
 .telemetry
 
 conf/**/*credentials*

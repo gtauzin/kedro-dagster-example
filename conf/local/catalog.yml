@@ -1,0 +1,103 @@
+# Here you can define all your data sets by using simple YAML syntax.
+#
+# Documentation for this file format can be found in "The Data Catalog"
+# Link: https://docs.kedro.org/en/stable/data/data_catalog.html
+#
+# We support interacting with a variety of data stores including local file systems, cloud, network and HDFS
+#
+# An example data set definition can look as follows:
+#
+# The Data Catalog supports being able to reference the same file using two different Dataset implementations
+# (transcoding), templating and a way to reuse arguments that are frequently repeated. See more here:
+# https://docs.kedro.org/en/stable/data/data_catalog.html
+
+
+companies_partition:
+  type: partitions.PartitionedDataset
+  path: data/01_raw/companies/
+  dataset:
+    type: pandas.CSVDataset
+  filename_suffix: ".csv"
+
+reviews_partition:
+  type: partitions.PartitionedDataset
+  path: data/01_raw/reviews/
+  dataset:
+    type: pandas.CSVDataset
+  filename_suffix: ".csv"
+
+shuttles_partition:
+  type: partitions.PartitionedDataset
+  path: data/01_raw/shuttles/
+  dataset:
+    type: pandas.CSVDataset
+  filename_suffix: ".csv"
+
+companies:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/companies.csv
+  metadata:
+    description: "A CSV file containing raw companies."
+
+reviews:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/reviews.csv
+  metadata:
+    description: "A CSV file containing raw reviews."
+
+shuttles:
+  type: pandas.ExcelDataset
+  filepath: data/01_raw/shuttles.xlsx
+  load_args:
+    engine: openpyxl
+
+"{namespace}.preprocessed_companies":
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/local/{namespace}/preprocessed_companies.pq
+  metadata:
+    description: "A Parquet file containing preprocessed companies."
+
+"{namespace}.preprocessed_shuttles":
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/local/{namespace}/preprocessed_shuttles.pq
+  metadata:
+    description: "A Parquet file containing preprocessed shuttles."
+
+"{namespace}.model_input_table":
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/local/{namespace}/model_input_table.pq
+
+"{namespace}.{variant}.regressor":
+  type: kedro_mlflow.io.models.MlflowModelTrackingDataset
+  flavor: mlflow.sklearn
+  artifact_path: "{namespace}/{variant}/regressor"
+
+"{namespace}.{variant}.study":
+  type: optuna.StudyDataset
+  backend: sqlite
+  database: data/06_models/local/{namespace}/{variant}/optuna.db
+  study_name: "{namespace}.{variant}"
+  load_args:
+    sampler:
+      class: TPESampler
+      n_startup_trials: 2
+      n_ei_candidates: 5
+    pruner:
+      class: NopPruner
+  versioned: true
+
+"{namespace}.{variant}.tuning_node_done_{i_tuning_node}":
+  type: MemoryDataset
+
+"{namespace}.{variant}.study_artifact":
+  type: kedro_mlflow.io.artifacts.MlflowArtifactDataset
+  dataset:
+    type: optuna.StudyDataset
+    backend: sqlite
+    database: data/06_models/local/{namespace}/{variant}/optuna_sqlite.db
+    study_name: "{namespace}.{variant}"
+  artifact_path: "{namespace}/{variant}"
+
+"{namespace}.{variant}.{process}.best_params":
+  type: pandas.ParquetDataset
+  filepath: data/06_models/local/{namespace}/{variant}/{process}/best_params.pq
