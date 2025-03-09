@@ -12,24 +12,6 @@
 # https://docs.kedro.org/en/stable/data/data_catalog.html
 
 
-companies:
-  type: pandas.CSVDataset
-  filepath: data/01_raw/companies.csv
-  metadata:
-    description: "A CSV file containing raw companies."
-
-reviews:
-  type: pandas.CSVDataset
-  filepath: data/01_raw/reviews.csv
-  metadata:
-    description: "A CSV file containing raw reviews."
-
-shuttles:
-  type: pandas.ExcelDataset
-  filepath: data/01_raw/shuttles.xlsx
-  load_args:
-    engine: openpyxl
-
 "{namespace}.preprocessed_companies":
   type: pandas.ParquetDataset
   filepath: data/02_intermediate/dev/{namespace}/preprocessed_companies.pq

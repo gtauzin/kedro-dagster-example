@@ -81,6 +81,7 @@ test = [
 
 [tool.uv.sources]
 kedro-datasets = { git = "https://github.com/gtauzin/kedro-plugins.git", subdirectory = "kedro-datasets", branch = "feature/optuna-study" }
+kedro-dagster = { git = "https://github.com/gtauzin/kedro-dagster.git", branch = "refactor" }
 
 [tool.kedro]
 project_name = "kedro-dagster-example"

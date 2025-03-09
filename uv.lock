@@ -1740,17 +1740,12 @@ wheels = [
 
 [[package]]
 name = "kedro-dagster"
-version = "0.1.1"
-source = { registry = "https://pypi.org/simple" }
+version = "0.1.2.dev58+ge58667f"
+source = { git = "https://github.com/gtauzin/kedro-dagster.git?branch=refactor#e58667f30e3f905a5eb38dbd85cfebe8834769a5" }
 dependencies = [
     { name = "dagster" },
     { name = "dagster-webserver" },
     { name = "kedro" },
-    { name = "kedro-datasets" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/ff/06/0f2698d946e36e6f12c90054f9e70406c4f29d184a1e2298c29fd6cbc47b/kedro_dagster-0.1.1.tar.gz", hash = "sha256:f8146a9f6bef3af2854038908e3d9cd6a9500f96d2b05f219b009e6c4e217e34", size = 552806 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/f6/4b/ad8bc8fe2337ad0d31e63c507f928db6431e96c2ab8194a1adb274a37ba0/kedro_dagster-0.1.1-py3-none-any.whl", hash = "sha256:9a285afa8df4152a14d05538e96c84206b8907f5c1b3ae47b4a3d37d2424e9a0", size = 22536 },
 ]
 
 [[package]]
@@ -1823,7 +1818,7 @@ requires-dist = [
     { name = "dagster", specifier = "==1.9.6" },
     { name = "dagster-mlflow" },
     { name = "kedro", specifier = ">=0.19.11" },
-    { name = "kedro-dagster" },
+    { name = "kedro-dagster", git = "https://github.com/gtauzin/kedro-dagster.git?branch=refactor" },
     { name = "kedro-datasets", extras = ["optuna-studydataset", "pandas-csvdataset", "pandas-exceldataset", "pandas-parquetdataset"], git = "https://github.com/gtauzin/kedro-plugins.git?subdirectory=kedro-datasets&branch=feature%2Foptuna-study" },
     { name = "kedro-mlflow", specifier = ">=0.14.3" },
     { name = "mlflow", specifier = ">=2.20" },

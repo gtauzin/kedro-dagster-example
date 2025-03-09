@@ -1,0 +1,51 @@
+# Here you can define all your data sets by using simple YAML syntax.
+#
+# Documentation for this file format can be found in "The Data Catalog"
+# Link: https://docs.kedro.org/en/stable/data/data_catalog.html
+#
+# We support interacting with a variety of data stores including local file systems, cloud, network and HDFS
+#
+# An example data set definition can look as follows:
+#
+# The Data Catalog supports being able to reference the same file using two different Dataset implementations
+# (transcoding), templating and a way to reuse arguments that are frequently repeated. See more here:
+# https://docs.kedro.org/en/stable/data/data_catalog.html
+
+
+companies_partition:
+  type: partitions.PartitionedDataset
+  path: data/01_raw/companies/
+  dataset:
+    type: pandas.CSVDataset
+
+reviews_partition:
+  type: partitions.PartitionedDataset
+  path: data/01_raw/reviews/
+  dataset:
+    type: pandas.CSVDataset
+
+shuttles_partition:
+  type: partitions.PartitionedDataset
+  path: data/01_raw/shuttles/
+  dataset:
+    type: pandas.CSVDataset
+    load_args:
+      engine: openpyxl
+
+companies:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/companies.csv
+  metadata:
+    description: "A CSV file containing raw companies."
+
+reviews:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/reviews.csv
+  metadata:
+    description: "A CSV file containing raw reviews."
+
+shuttles:
+  type: pandas.ExcelDataset
+  filepath: data/01_raw/shuttles.xlsx
+  load_args:
+    engine: openpyxl
