@@ -14,54 +14,6 @@ executors:
       max_concurrent: 2
 
 jobs:
-  reviews_predictor_base_data_processing:
-    pipeline:
-      pipeline_name: data_processing
-      node_namespace: reviews_predictor
-      tags:
-      - base
-    executor: in_process
-
-  reviews_predictor_base_data_science:
-    pipeline:
-      pipeline_name: data_science
-      node_namespace: reviews_predictor
-      tags:
-      - base
-    executor: in_process
-
-  reviews_predictor_base_model_tuning:
-    pipeline:
-      pipeline_name: model_tuning
-      node_namespace: reviews_predictor
-      tags:
-      - base
-    executor: multiprocess
-
-  price_predictor_base_data_processing:
-    pipeline:
-      pipeline_name: data_processing
-      node_namespace: price_predictor
-      tags:
-      - base
-    executor: in_process
-
-  price_predictor_base_data_science:
-    pipeline:
-      pipeline_name: data_science
-      node_namespace: price_predictor
-      tags:
-      - base
-    executor: in_process
-
-  price_predictor_base_model_tuning:
-    pipeline:
-      pipeline_name: model_tuning
-      node_namespace: price_predictor
-      tags:
-      - base
-    executor: multiprocess
-
   price_predictor_data_processing_test1:
     pipeline:
       pipeline_name: data_processing

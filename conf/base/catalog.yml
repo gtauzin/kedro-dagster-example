@@ -29,8 +29,6 @@ shuttles_partition:
   path: data/01_raw/shuttles/
   dataset:
     type: pandas.CSVDataset
-    load_args:
-      engine: openpyxl
 
 companies:
   type: pandas.CSVDataset

@@ -35,17 +35,11 @@ price_predictor:
       - d_check_complete
       - company_rating
 
-  candidate2:
+  test1:
     model_options:
       <<: *base_price_model_options
       model_params:
         gamma: 2.5
-
-  candidate3:
-    model_options:
-      <<: *base_price_model_options
-      model_params:
-        max_depth: 1.0
 
 reviews_predictor:
   base:

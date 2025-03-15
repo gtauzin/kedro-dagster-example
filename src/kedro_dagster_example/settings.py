@@ -23,10 +23,13 @@ https://docs.kedro.org/en/stable/kedro_project_setup/settings.html.
 # Directory that holds configuration.
 # CONF_SOURCE = "conf"
 
+import os
+
 from kedro.config import OmegaConfigLoader
 from kedro.io import KedroDataCatalog
 from omegaconf.resolvers import oc
 
+KEDRO_ENV = os.getenv("KEDRO_ENV")
 
 CONFIG_LOADER_CLASS = OmegaConfigLoader
 # Keyword arguments to pass to the `CONFIG_LOADER_CLASS` constructor.
@@ -39,11 +42,26 @@ CONFIG_LOADER_ARGS = {
 }
 DATA_CATALOG_CLASS = KedroDataCatalog
 
-DYNAMIC_PIPELINES_MAPPING = {
-    "reviews_predictor": ["base", "candidate1"],
-    "price_predictor": [
-        "base",
-        "candidate1",
-        "test1",
-    ],
-}
+if KEDRO_ENV == "local":
+    DYNAMIC_PIPELINES_MAPPING = {
+        "reviews_predictor": ["base", "candidate1"],
+        "price_predictor": [
+            "base",
+            "candidate1",
+            "test1",
+        ],
+    }
+elif KEDRO_ENV == "dev":
+    DYNAMIC_PIPELINES_MAPPING = {
+        "price_predictor": ["test1"],
+    }
+elif KEDRO_ENV == "staging":
+    DYNAMIC_PIPELINES_MAPPING = {
+        "reviews_predictor": ["candidate1"],
+        "price_predictor": ["candidate1"],
+    }
+elif KEDRO_ENV == "prod":
+    DYNAMIC_PIPELINES_MAPPING = {
+        "reviews_predictor": ["base"],
+        "price_predictor": ["base"],
+    }

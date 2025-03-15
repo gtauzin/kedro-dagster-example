@@ -34,7 +34,7 @@
   artifact_path: "{namespace}/{variant}/regressor"
 
 "{namespace}.{variant}.study":
-  type: optuna.StudyDataset
+  type: kedro_datasets_experimental.optuna.StudyDataset
   backend: sqlite
   database: data/06_models/dev/{namespace}/{variant}/optuna.db
   study_name: "{namespace}.{variant}"
@@ -53,7 +53,7 @@
 "{namespace}.{variant}.study_artifact":
   type: kedro_mlflow.io.artifacts.MlflowArtifactDataset
   dataset:
-    type: optuna.StudyDataset
+    type: kedro_datasets_experimental.optuna.StudyDataset
     backend: sqlite
     database: data/06_models/dev/{namespace}/{variant}/optuna_sqlite.db
     study_name: "{namespace}.{variant}"

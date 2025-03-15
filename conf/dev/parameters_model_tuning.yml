@@ -1,7 +1,7 @@
 # The study_params below are "base" options for all pipelines
 
 study_params: &base_study_params
-  n_trials_per_process: 10
+  n_trials_per_process: 2
   model:
     class: sklearn.ensemble.RandomForestRegressor
     random_state: 42
@@ -31,23 +31,7 @@ price_predictor:
       <<: *base_study_params
       n_trials_per_process: 10
 
-  candidate1:
-    study_params:
-      <<: *price_predictor_base_study_params
-      n_trials_per_process: 11
-
-  candidate2:
+  test1:
     study_params:
       <<: *price_predictor_base_study_params
       n_trials_per_process: 12
-
-reviews_predictor:
-  base:
-    study_params: &reviews_predictor_base_study_params
-      <<: *base_study_params
-      n_trials_per_process: 2
-
-  candidate1:
-    study_params:
-      <<: *reviews_predictor_base_study_params
-      n_trials_per_process: 21
