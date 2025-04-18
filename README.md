@@ -45,7 +45,9 @@ This project uses [uv](https://docs.astral.sh/uv/) for packaging and dependency 
    source .venv/bin/activate
    ```
 
-## Running the Pipelines
+## Quick Start
+
+### Running the Pipelines
 
 After installation, initialize Kedro × Dagster for your local environment:
 
@@ -63,7 +65,7 @@ KEDRO_ENV=local kedro dagster dev
 
 You’ll see your Kedro datasets as Dagster assets and your pipelines as Dagster jobs.
 
-## Deploying the Pipelines
+### Deploying the Pipelines
 
 Each Kedro environment maps to its own Dagster code location. If you’re using Dagster on Kubernetes, build a separate Docker image per environment (e.g., `local`, `dev`, `staging`, `prod`).
 
