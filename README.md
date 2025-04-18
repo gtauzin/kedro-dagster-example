@@ -47,20 +47,29 @@ This project uses [uv](https://docs.astral.sh/uv/) for packaging and dependency 
 
 ## Quick Start
 
-### Running the Pipelines
-
-After installation, initialize Kedro × Dagster for your local environment:
+This repository already comes with `kedro-dasgter` initialized for each of the available Kedro environments. In practice, this means there is no need to run
 
 ```bash
-kedro dagster init --env local
+kedro dagster init --env <KEDRO_ENV>
 ```
 
-This generates a `dagster.yml` under `conf/local/` and a `definitions.py` in your project source.
+and the `definitions.py` file along with the `conf/<KEDRO_ENV>/dagster.yml` configuration files for each Kedro environment are already provided.
+
+### Running the Pipelines
+
+You can run the Kedro pipelines using `kedro run` as usual
+
+```bash
+uv run kedro run --env KEDRO_ENV
+```
+
+assuming KEDRO_ENV is an environmental variable set to your target environment (e.g. `local`)
 
 To explore the pipelines in the Dagster UI:
 
 ```bash
-KEDRO_ENV=local kedro dagster dev
+export KEDRO_ENV=local
+kedro dagster dev
 ```
 
 You’ll see your Kedro datasets as Dagster assets and your pipelines as Dagster jobs.
