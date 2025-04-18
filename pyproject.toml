@@ -39,9 +39,6 @@ dependencies = [
 source = "vcs"
 fallback-version = "0.0.0"
 
-# [tool.hatch.metadata.hooks.vcs.urls]
-# source_archive = "https://github.com/gtauzin/kedro-dagster-example/archive/{commit_hash}.zip"
-
 [tool.hatch.build.targets.wheel]
 packages = ["src/kedro_dagster_example"]
 
@@ -80,7 +77,7 @@ test = [
 ]
 
 [tool.uv.sources]
-kedro-datasets = { git = "https://github.com/gtauzin/kedro-plugins.git", subdirectory = "kedro-datasets", branch = "feature/optuna-study" }
+kedro-datasets = { git = "https://github.com/gtauzin/kedro-plugins.git", subdirectory = "kedro-datasets", branch = "main" }
 kedro-dagster = { git = "https://github.com/gtauzin/kedro-dagster.git", branch = "refactor" }
 
 [tool.kedro]
