@@ -13,14 +13,6 @@ executors:
     multiprocess:
       max_concurrent: 2
 
-  k8s_executor:
-    k8s_job_executor:
-      container_config:
-        resources:
-          requests:
-          - cpu": 200m
-          - memory: 32Mi
-
 jobs:
   reviews_predictor_data_processing_candidate1:
     pipeline:
@@ -44,7 +36,7 @@ jobs:
       node_namespace: reviews_predictor
       tags:
       - candidate1
-    executor: k8s_executor
+    executor: multiprocessing_executor
 
   price_predictor_data_processing_candidate1:
     pipeline:

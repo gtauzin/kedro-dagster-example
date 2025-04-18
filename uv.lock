@@ -1759,7 +1759,7 @@ dependencies = [
     { name = "dagster-mlflow" },
     { name = "kedro" },
     { name = "kedro-dagster" },
-    { name = "kedro-datasets", extra = ["pandas-csvdataset", "pandas-exceldataset", "pandas-parquetdataset"] },
+    { name = "kedro-datasets", extra = ["optuna-studydataset", "pandas-csvdataset", "pandas-exceldataset", "pandas-parquetdataset"] },
     { name = "kedro-mlflow" },
     { name = "mlflow" },
     { name = "optuna" },
@@ -1822,7 +1822,7 @@ requires-dist = [
     { name = "dagster-mlflow" },
     { name = "kedro", specifier = ">=0.19.11" },
     { name = "kedro-dagster", git = "https://github.com/gtauzin/kedro-dagster.git?branch=refactor" },
-    { name = "kedro-datasets", extras = ["optuna-studydataset", "pandas-csvdataset", "pandas-exceldataset", "pandas-parquetdataset"], git = "https://github.com/gtauzin/kedro-plugins.git?subdirectory=kedro-datasets&branch=main" },
+    { name = "kedro-datasets", extras = ["optuna-studydataset", "pandas-csvdataset", "pandas-exceldataset", "pandas-parquetdataset"], git = "https://github.com/kedro-org/kedro-plugins.git?subdirectory=kedro-datasets&branch=main" },
     { name = "kedro-mlflow", specifier = ">=0.14.3" },
     { name = "mlflow", specifier = ">=2.20" },
     { name = "optuna", specifier = ">=4.2" },
@@ -1880,13 +1880,16 @@ viz = [
 [[package]]
 name = "kedro-datasets"
 version = "6.0.0"
-source = { git = "https://github.com/gtauzin/kedro-plugins.git?subdirectory=kedro-datasets&branch=main#4458d2cb29608ee2f8b525c66a4515972941a767" }
+source = { git = "https://github.com/kedro-org/kedro-plugins.git?subdirectory=kedro-datasets&branch=main#dd80cdc272d5587063043ddb1d8c63e1996aed95" }
 dependencies = [
     { name = "kedro" },
     { name = "lazy-loader" },
 ]
 
 [package.optional-dependencies]
+optuna-studydataset = [
+    { name = "optuna" },
+]
 pandas-csvdataset = [
     { name = "pandas" },
 ]

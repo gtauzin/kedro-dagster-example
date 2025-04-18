@@ -9,13 +9,9 @@ executors:
   sequential_executor:
     in_process:
 
-  k8s_executor:
-    k8s_job_executor:
-      container_config:
-        resources:
-          requests:
-          - cpu": 200m
-          - memory: 32Mi
+  multiprocessing_executor:
+    multiprocess:
+      max_concurrent: 2
 
 jobs:
   price_predictor_data_processing_test1:
@@ -40,5 +36,5 @@ jobs:
       node_namespace: price_predictor
       tags:
       - test1
-    executor: k8s_executor
+    executor: multiprocessing_executor
 
