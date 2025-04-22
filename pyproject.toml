@@ -9,15 +9,15 @@ requires = [
 name = "kedro-dagster-example"
 dynamic = ["version", "urls"]
 authors = [
-  { name = "Guillaume Tauzin" },
+  { name = "Guillaume Tauzin", email = "gtauzin.github@pm.me" }
 ]
 maintainers = [
-  { name = "Guillaume Tauzin" },
+  { name = "Guillaume Tauzin", email = "gtauzin.github@pm.me" }
 ]
 description = "Kedro project for presenting the `kedro-dagster` plugin."
 readme.content-type = "text/markdown"
 readme.file = "README.md"
-requires-python = ">=3.11, <3.14"
+requires-python = ">=3.10, <3.14"
 dependencies = [
     "kedro>=0.19.11",
     "kedro-datasets[pandas-csvdataset, pandas-exceldataset, pandas-parquetdataset, optuna-studydataset]>=3.0",
@@ -78,7 +78,7 @@ test = [
 
 [tool.uv.sources]
 kedro-datasets = { git = "https://github.com/kedro-org/kedro-plugins.git", subdirectory = "kedro-datasets", branch = "main" }
-kedro-dagster = { git = "https://github.com/gtauzin/kedro-dagster.git", branch = "refactor" }
+kedro-dagster = { git = "https://github.com/gtauzin/kedro-dagster.git", branch = "main" }
 
 [tool.kedro]
 project_name = "kedro-dagster-example"

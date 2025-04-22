@@ -6,12 +6,16 @@ dev:
   live_data_poll_rate: "2000"
 
 executors:
-  sequential_executor:
+  sequential:
     in_process:
 
-  multiprocessing_executor:
+  multiprocessing:
     multiprocess:
       max_concurrent: 2
+
+schedules:
+  daily:
+    cron_schedule: "30 2 * * *"
 
 jobs:
   reviews_predictor_data_processing_candidate1:
@@ -21,6 +25,7 @@ jobs:
       tags:
       - candidate1
     executor: in_process
+    schedule: daily
 
   reviews_predictor_data_science_candidate1:
     pipeline:
@@ -28,7 +33,8 @@ jobs:
       node_namespace: reviews_predictor
       tags:
       - candidate1
-    executor: multiprocess_executor
+    executor: multiprocess
+    schedule: daily
 
   reviews_predictor_model_tuning_candidate1:
     pipeline:
@@ -36,7 +42,8 @@ jobs:
       node_namespace: reviews_predictor
       tags:
       - candidate1
-    executor: multiprocessing_executor
+    executor: multiprocessing
+    schedule: daily
 
   price_predictor_data_processing_candidate1:
     pipeline:
@@ -45,6 +52,7 @@ jobs:
       tags:
       - candidate1
     executor: in_process
+    schedule: daily
 
   price_predictor_data_science_candidate1:
     pipeline:
@@ -53,3 +61,4 @@ jobs:
       tags:
       - candidate1
     executor: in_process
+    schedule: daily

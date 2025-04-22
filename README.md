@@ -4,6 +4,15 @@
 
 This repository aims to demonstrate the [`kedro-dagster`](https://github.com/gtauzin/kedro-dagster) plugin in the context of a real‑world, deployed Kedro project.
 
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/gtauzin/kedro-dagster/main/docs/images/example/local_asset_graph_light.png">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/gtauzin/kedro-dagster/main/docs/images/example/local_asset_graph_dark.png">
+    <img src="https://raw.githubusercontent.com/gtauzin/kedro-dagster/main/docs/images/example/local_asset_graph_light.png" alt="Kedro-Dagster">
+  </picture>
+  Asset Lineage Graph
+</p>
+
 ## Setup
 
 This repo builds on the [Kedro Spaceflights tutorial](https://docs.kedro.org/en/stable/tutorial/spaceflights_tutorial.html), augmented with dynamic pipelines following the [GetInData blog post](https://getindata.com/blog/kedro-dynamic-pipelines/).
