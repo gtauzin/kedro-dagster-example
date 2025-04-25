@@ -16,22 +16,26 @@
   type: pandas.ParquetDataset
   filepath: data/02_intermediate/dev/{namespace}/preprocessed_companies.pq
   metadata:
-    description: "A Parquet file containing preprocessed companies."
+    description: "A Parquet file containing preprocessed companies's data for {namespace}."
 
 "{namespace}.preprocessed_shuttles":
   type: pandas.ParquetDataset
   filepath: data/02_intermediate/dev/{namespace}/preprocessed_shuttles.pq
   metadata:
-    description: "A Parquet file containing preprocessed shuttles."
+    description: "A Parquet file containing preprocessed shuttles's data for {namespace}."
 
 "{namespace}.model_input_table":
   type: pandas.ParquetDataset
   filepath: data/03_primary/dev/{namespace}/model_input_table.pq
+  metadata:
+    descriptions: "Model input table for {namespace}"
 
 "{namespace}.{variant}.regressor":
   type: kedro_mlflow.io.models.MlflowModelTrackingDataset
   flavor: mlflow.sklearn
   artifact_path: "{namespace}/{variant}/regressor"
+  metadata:
+    descriptions: "Regressor trained for {variant} model for {namespace}."
 
 "{namespace}.{variant}.study":
   type: kedro_datasets_experimental.optuna.StudyDataset
@@ -46,9 +50,13 @@
     pruner:
       class: NopPruner
   versioned: true
+  metadata:
+    descriptions: "Tuning study for {variant} model for {namespace}."
 
 "{namespace}.{variant}.tuning_node_done_{i_tuning_node}":
   type: MemoryDataset
+  metadata:
+    descriptions: "Placeholder output for tuning node {i_tuning_node} to enforce order."
 
 "{namespace}.{variant}.study_artifact":
   type: kedro_mlflow.io.artifacts.MlflowArtifactDataset
@@ -58,7 +66,5 @@
     database: data/06_models/dev/{namespace}/{variant}/optuna_sqlite.db
     study_name: "{namespace}.{variant}"
   artifact_path: "{namespace}/{variant}"
-
-"{namespace}.{variant}.{process}.best_params":
-  type: pandas.ParquetDataset
-  filepath: data/06_models/dev/{namespace}/{variant}/{process}/best_params.pq
+  metadata:
+    descriptions: "Tuning study MLFlow artifact for {variant} model for {namespace}."

@@ -9,7 +9,7 @@ executors:
   sequential:
     in_process:
 
-  multiprocess:
+  multiprocessing:
     multiprocess:
       max_concurrent: 2
 
@@ -24,7 +24,7 @@ jobs:
       node_namespace: reviews_predictor
       tags:
       - base
-    executor: sequential
+    executor: multiprocessing
     schedule: daily
 
   reviews_predictor_data_science_base:
@@ -33,7 +33,7 @@ jobs:
       node_namespace: reviews_predictor
       tags:
       - base
-    executor: multiprocess
+    executor: multiprocessing
     schedule: daily
 
   price_predictor_data_processing_base:

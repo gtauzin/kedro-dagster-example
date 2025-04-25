@@ -24,7 +24,7 @@ jobs:
       node_namespace: reviews_predictor
       tags:
       - candidate1
-    executor: in_process
+    executor: multiprocessing
     schedule: daily
 
   reviews_predictor_data_science_candidate1:
@@ -33,7 +33,7 @@ jobs:
       node_namespace: reviews_predictor
       tags:
       - candidate1
-    executor: multiprocess
+    executor: sequential
     schedule: daily
 
   reviews_predictor_model_tuning_candidate1:
@@ -51,7 +51,7 @@ jobs:
       node_namespace: price_predictor
       tags:
       - candidate1
-    executor: in_process
+    executor: multiprocessing
     schedule: daily
 
   price_predictor_data_science_candidate1:
@@ -60,5 +60,5 @@ jobs:
       node_namespace: price_predictor
       tags:
       - candidate1
-    executor: in_process
+    executor: sequential
     schedule: daily
