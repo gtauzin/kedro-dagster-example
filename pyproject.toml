@@ -23,7 +23,7 @@ dependencies = [
     "kedro-datasets[pandas-csvdataset, pandas-exceldataset, pandas-parquetdataset, optuna-studydataset]>=3.0",
     "kedro-dagster",
     "kedro-mlflow>=0.14.3",
-    "dagster==1.9.6",
+    "dagster==1.10.15",
     # Pinning dagster versions pins dagster integrations' versions too
     "dagster-mlflow",
     "scikit-learn>=1.5",
