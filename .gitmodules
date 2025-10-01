@@ -1,0 +1,3 @@
+[submodule "packages/kedro-dagster"]
+	path = packages/kedro-dagster
+	url = git@github.com:gtauzin/kedro-dagster.git
