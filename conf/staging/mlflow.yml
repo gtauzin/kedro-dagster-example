@@ -34,7 +34,7 @@ tracking:
     pipelines: []
 
   experiment:
-    name: kedro_dagster_example-staging
+    name: kedro-dagster-example-staging
     restore_if_deleted: True  # if the experiment`name` was previously deleted experiment, should we restore it?
 
   run:

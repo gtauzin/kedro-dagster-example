@@ -1934,7 +1934,7 @@ requires-dist = [
     { name = "dagster-mlflow" },
     { name = "kedro", specifier = ">=0.19.11" },
     { name = "kedro-dagster", git = "https://github.com/gtauzin/kedro-dagster.git?branch=main" },
-    { name = "kedro-datasets", extras = ["optuna-studydataset", "pandas-csvdataset", "pandas-exceldataset", "pandas-parquetdataset"], git = "https://github.com/kedro-org/kedro-plugins.git?subdirectory=kedro-datasets&branch=main" },
+    { name = "kedro-datasets", extras = ["optuna-studydataset", "pandas-csvdataset", "pandas-exceldataset", "pandas-parquetdataset"], specifier = ">=7.0" },
     { name = "kedro-mlflow", specifier = ">=0.14.3" },
     { name = "mlflow", specifier = ">=2.20" },
     { name = "optuna", specifier = ">=4.2" },
@@ -1991,11 +1991,15 @@ viz = [
 
 [[package]]
 name = "kedro-datasets"
-version = "6.0.0"
-source = { git = "https://github.com/kedro-org/kedro-plugins.git?subdirectory=kedro-datasets&branch=main#dd80cdc272d5587063043ddb1d8c63e1996aed95" }
+version = "7.0.0"
+source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "kedro" },
     { name = "lazy-loader" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/79/36/187729057281fa1c92963cc649aa66477fb24e487c59ada2df68d1b47689/kedro_datasets-7.0.0.tar.gz", hash = "sha256:637c5ddca753e54e2ad30916e85396f433513bd6d589460ca74bec3574a92256", size = 127311 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/37/3e/ea9fdc4c944397ccbc45cf3f4af2c84e8d94c49a3c39fa3acc114a97e57e/kedro_datasets-7.0.0-py3-none-any.whl", hash = "sha256:8d8315bbf26e6f33e4382a9923bb2b95303f447e4f46a15bbe1a0527653ae7e6", size = 220612 },
 ]
 
 [package.optional-dependencies]
