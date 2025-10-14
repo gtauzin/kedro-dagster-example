@@ -38,9 +38,9 @@
     descriptions: "Regressor trained for {variant} model for {namespace}."
 
 "{namespace}.{variant}.study":
-  type: kedro_datasets_experimental.optuna.StudyDataset
-  backend: sqlite
-  database: data/06_models/dev/{namespace}/{variant}/optuna.db
+  type: kedro_dagster_example.study_dataset.StudyDataset
+  backend: postgresql
+  database: dev_db
   study_name: "{namespace}.{variant}"
   load_args:
     sampler:
@@ -50,6 +50,7 @@
     pruner:
       class: NopPruner
   versioned: true
+  credentials: dev_optuna
   metadata:
     descriptions: "Tuning study for {variant} model for {namespace}."
 
