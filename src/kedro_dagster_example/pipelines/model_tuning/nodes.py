@@ -108,7 +108,7 @@ def tune_model(
         callbacks=[mlflow_callback],
     )
 
-    return True
+    return None
 
 
 def log_study(study, *tuning_nodes_done):

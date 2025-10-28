@@ -12,15 +12,6 @@
 # https://docs.kedro.org/en/stable/data/data_catalog.html
 
 
-companies_partition:
-  type: partitions.PartitionedDataset
-  path: data/01_raw/companies/
-  dataset:
-    type: pandas.CSVDataset
-  filename_suffix: ".csv"
-  metadata:
-      description: "Partition of raw CSV file containing companies' data."
-
 reviews_partition:
   type: partitions.PartitionedDataset
   path: data/01_raw/reviews/
@@ -39,12 +30,6 @@ shuttles_partition:
   metadata:
       description: "Partition of raw CSV file containing shuttles' data."
 
-companies:
-  type: pandas.CSVDataset
-  filepath: data/01_raw/companies.csv
-  metadata:
-    description: "A CSV file containing raw companies' data."
-
 reviews:
   type: pandas.CSVDataset
   filepath: data/01_raw/reviews.csv
@@ -59,11 +44,41 @@ shuttles:
   metadata:
     description: "An Excel file containing raw shuttles' data."
 
+"{namespace}.preprocessed_companies_dagster_partition":
+  type: kedro_dagster.DagsterPartitionedDataset
+  path: data/02_intermediate/local/{namespace}/preprocessed_companies/
+  dataset:
+    type: pandas.CSVDataset
+  partition:
+    type: dagster.StaticPartitionsDefinition
+    partition_keys: ["10.csv","20.csv", "30.csv"]
+  metadata:
+      description: "Dagster partition of raw CSV file containing preprocessed companies' data."
+
+companies_partition:
+  type: partitions.PartitionedDataset
+  path: data/01_raw/companies/
+  dataset:
+    type: pandas.CSVDataset
+  metadata:
+      description: "Partition of raw CSV file containing reviews' data."
+
+"{namespace}.preprocessed_companies_partition":
+  type: partitions.PartitionedDataset
+  path: data/02_intermediate/local/{namespace}/preprocessed_companies/
+  dataset:
+    type: pandas.CSVDataset
+  metadata:
+      description: "Partition of raw CSV file containing preprrocessed companies' data."
+
 "{namespace}.preprocessed_companies":
   type: pandas.ParquetDataset
   filepath: data/02_intermediate/local/{namespace}/preprocessed_companies.pq
   metadata:
     description: "A Parquet file containing preprocessed companies's data for {namespace}."
+
+"{namespace}.is_company_preprocessing_done":
+  type: kedro_dagster.DagsterNothingDataset
 
 "{namespace}.preprocessed_shuttles":
   type: pandas.ParquetDataset
@@ -75,14 +90,14 @@ shuttles:
   type: pandas.ParquetDataset
   filepath: data/03_primary/local/{namespace}/model_input_table.pq
   metadata:
-    descriptions: "Model input table for {namespace}"
+    description: "Model input table for {namespace}"
 
 "{namespace}.{variant}.regressor":
   type: kedro_mlflow.io.models.MlflowModelTrackingDataset
   flavor: mlflow.sklearn
   artifact_path: "{namespace}/{variant}/regressor"
   metadata:
-    descriptions: "Regressor trained for {variant} model for {namespace}."
+    description: "Regressor trained for {variant} model for {namespace}."
 
 "{namespace}.{variant}.study":
   type: kedro_datasets_experimental.optuna.StudyDataset
@@ -98,12 +113,12 @@ shuttles:
       class: NopPruner
   versioned: true
   metadata:
-    descriptions: "Tuning study for {variant} model for {namespace}."
+    description: "Tuning study for {variant} model for {namespace}."
 
 "{namespace}.{variant}.tuning_node_done_{i_tuning_node}":
-  type: MemoryDataset
+  type: kedro_dagster.DagsterNothingDataset
   metadata:
-    descriptions: "Placeholder output for tuning node {i_tuning_node} to enforce order."
+    description: "Placeholder output for tuning node {i_tuning_node} to enforce order."
 
 "{namespace}.{variant}.study_artifact":
   type: kedro_mlflow.io.artifacts.MlflowArtifactDataset
@@ -114,4 +129,4 @@ shuttles:
     study_name: "{namespace}.{variant}"
   artifact_path: "{namespace}/{variant}"
   metadata:
-    descriptions: "Tuning study MLFlow artifact for {variant} model for {namespace}."
+    description: "Tuning study MLFlow artifact for {variant} model for {namespace}."

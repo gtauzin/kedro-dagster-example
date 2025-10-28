@@ -2,6 +2,7 @@ from collections.abc import Callable
 from typing import Any
 
 import pandas as pd
+from kedro_dagster import NOTHING_OUTPUT
 
 
 def _is_true(x: pd.Series) -> pd.Series:
@@ -22,6 +23,7 @@ def _parse_money(x: pd.Series) -> pd.Series:
 
 def concatenate_partitions(
     df_partitions: dict[str, Callable[[], Any]],
+    are_partitions_processed: None = None,
 ) -> pd.DataFrame:
     """Concatenate input partitions into one pandas DataFrame.
 
@@ -32,9 +34,12 @@ def concatenate_partitions(
         Pandas DataFrame representing a concatenation of all loaded partitions.
     """
     df_list = []
-    for partition_name, partition_load_func in sorted(df_partitions.items()):
+    for partition_name, partition_val in sorted(df_partitions.items()):
         if partition_name:
-            df_partition = partition_load_func()
+            if isinstance(partition_val, pd.DataFrame):
+                df_partition = partition_val
+            else:
+                df_partition = partition_val()
 
             df_list.append(df_partition)
 
@@ -43,7 +48,7 @@ def concatenate_partitions(
     return df
 
 
-def preprocess_companies(companies: pd.DataFrame) -> pd.DataFrame:
+def preprocess_companies(companies: dict) -> pd.DataFrame:
     """Preprocesses the data for companies.
 
     Args:
@@ -54,9 +59,15 @@ def preprocess_companies(companies: pd.DataFrame) -> pd.DataFrame:
         Preprocessed data, with `company_rating` converted to a float and
         `iata_approved` converted to boolean.
     """
-    companies["iata_approved"] = _is_true(companies["iata_approved"])
-    companies["company_rating"] = _parse_percentage(companies["company_rating"])
-    return companies
+    preprocess_companies = {}
+    for upstream_partition_key, companies_df_load_fn in companies.items():
+        preprocess_companies_df = companies_df_load_fn()
+        preprocess_companies_df["iata_approved"] = _is_true(preprocess_companies_df["iata_approved"])
+        preprocess_companies_df["company_rating"] = _parse_percentage(preprocess_companies_df["company_rating"])
+
+        downstream_partition_key = upstream_partition_key.split(".csv")[0] + "0.csv"
+        preprocess_companies[downstream_partition_key] = preprocess_companies_df
+    return preprocess_companies, NOTHING_OUTPUT
 
 
 def preprocess_shuttles(shuttles: pd.DataFrame) -> pd.DataFrame:
@@ -76,9 +87,7 @@ def preprocess_shuttles(shuttles: pd.DataFrame) -> pd.DataFrame:
     return shuttles
 
 
-def create_model_input_table(
-    shuttles: pd.DataFrame, companies: pd.DataFrame, reviews: pd.DataFrame
-) -> pd.DataFrame:
+def create_model_input_table(shuttles: pd.DataFrame, companies: pd.DataFrame, reviews: pd.DataFrame) -> pd.DataFrame:
     """Combines all data to create a model input table.
 
     Args:
@@ -93,8 +102,6 @@ def create_model_input_table(
     """
     rated_shuttles = shuttles.merge(reviews, left_on="id", right_on="shuttle_id")
     rated_shuttles = rated_shuttles.drop("id", axis=1)
-    model_input_table = rated_shuttles.merge(
-        companies, left_on="company_id", right_on="id"
-    )
+    model_input_table = rated_shuttles.merge(companies, left_on="company_id", right_on="id")
     model_input_table = model_input_table.dropna()
     return model_input_table
