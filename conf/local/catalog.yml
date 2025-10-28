@@ -51,7 +51,6 @@ shuttles:
     type: pandas.CSVDataset
   partition:
     type: dagster.StaticPartitionsDefinition
-    # partition_keys: ["1.csv","2.csv", "3.csv"]
     partition_keys: ["10.csv","20.csv", "30.csv"]
   metadata:
       description: "Dagster partition of raw CSV file containing preprocessed companies' data."
@@ -91,14 +90,14 @@ companies_partition:
   type: pandas.ParquetDataset
   filepath: data/03_primary/local/{namespace}/model_input_table.pq
   metadata:
-    descriptions: "Model input table for {namespace}"
+    description: "Model input table for {namespace}"
 
 "{namespace}.{variant}.regressor":
   type: kedro_mlflow.io.models.MlflowModelTrackingDataset
   flavor: mlflow.sklearn
   artifact_path: "{namespace}/{variant}/regressor"
   metadata:
-    descriptions: "Regressor trained for {variant} model for {namespace}."
+    description: "Regressor trained for {variant} model for {namespace}."
 
 "{namespace}.{variant}.study":
   type: kedro_datasets_experimental.optuna.StudyDataset
@@ -114,12 +113,12 @@ companies_partition:
       class: NopPruner
   versioned: true
   metadata:
-    descriptions: "Tuning study for {variant} model for {namespace}."
+    description: "Tuning study for {variant} model for {namespace}."
 
 "{namespace}.{variant}.tuning_node_done_{i_tuning_node}":
   type: kedro_dagster.DagsterNothingDataset
-  # metadata:
-  #   descriptions: "Placeholder output for tuning node {i_tuning_node} to enforce order."
+  metadata:
+    description: "Placeholder output for tuning node {i_tuning_node} to enforce order."
 
 "{namespace}.{variant}.study_artifact":
   type: kedro_mlflow.io.artifacts.MlflowArtifactDataset
@@ -130,4 +129,4 @@ companies_partition:
     study_name: "{namespace}.{variant}"
   artifact_path: "{namespace}/{variant}"
   metadata:
-    descriptions: "Tuning study MLFlow artifact for {variant} model for {namespace}."
+    description: "Tuning study MLFlow artifact for {variant} model for {namespace}."

@@ -20,8 +20,6 @@ companies_dagster_partition:
   partition:
     type: dagster.StaticPartitionsDefinition
     partition_keys: ["1.csv","2.csv", "3.csv"]
-    # type: dagster.DynamicPartitionsDefinition
-    # name: companies_dagster_partition
   partition_mapping:
     "{namespace}.preprocessed_companies_dagster_partition":
       type: dagster.StaticPartitionMapping
