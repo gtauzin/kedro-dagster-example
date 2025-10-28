@@ -51,8 +51,8 @@ shuttles:
     type: pandas.CSVDataset
   partition:
     type: dagster.StaticPartitionsDefinition
-    partition_keys: ["1.csv","2.csv", "3.csv"]
-    # partition_keys: ["10.csv","20.csv", "30.csv"]
+    # partition_keys: ["1.csv","2.csv", "3.csv"]
+    partition_keys: ["10.csv","20.csv", "30.csv"]
   metadata:
       description: "Dagster partition of raw CSV file containing preprocessed companies' data."
 
@@ -77,6 +77,9 @@ companies_partition:
   filepath: data/02_intermediate/local/{namespace}/preprocessed_companies.pq
   metadata:
     description: "A Parquet file containing preprocessed companies's data for {namespace}."
+
+"{namespace}.is_company_preprocessing_done":
+  type: kedro_dagster.DagsterNothingDataset
 
 "{namespace}.preprocessed_shuttles":
   type: pandas.ParquetDataset
@@ -114,9 +117,9 @@ companies_partition:
     descriptions: "Tuning study for {variant} model for {namespace}."
 
 "{namespace}.{variant}.tuning_node_done_{i_tuning_node}":
-  type: MemoryDataset
-  metadata:
-    descriptions: "Placeholder output for tuning node {i_tuning_node} to enforce order."
+  type: kedro_dagster.DagsterNothingDataset
+  # metadata:
+  #   descriptions: "Placeholder output for tuning node {i_tuning_node} to enforce order."
 
 "{namespace}.{variant}.study_artifact":
   type: kedro_mlflow.io.artifacts.MlflowArtifactDataset

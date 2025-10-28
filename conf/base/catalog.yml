@@ -22,13 +22,13 @@ companies_dagster_partition:
     partition_keys: ["1.csv","2.csv", "3.csv"]
     # type: dagster.DynamicPartitionsDefinition
     # name: companies_dagster_partition
-  # partition_mapping:
-  #   "{namespace}.preprocessed_companies_dagster_partition":
-  #     type: dagster.StaticPartitionMapping
-  #     downstream_partition_keys_by_upstream_partition_key:
-  #       1.csv: 10.csv
-  #       2.csv: 20.csv
-  #       3.csv: 30.csv
+  partition_mapping:
+    "{namespace}.preprocessed_companies_dagster_partition":
+      type: dagster.StaticPartitionMapping
+      downstream_partition_keys_by_upstream_partition_key:
+        1.csv: 10.csv
+        2.csv: 20.csv
+        3.csv: 30.csv
   metadata:
       description: "Dagster partition of raw CSV file containing companies' data."
 

@@ -77,11 +77,7 @@ test = [
 ]
 
 [tool.uv.sources]
-# kedro-dagster = { git = "https://github.com/gtauzin/kedro-dagster.git", branch = "main" }
-kedro-dagster = { workspace = true }
-
-[tool.uv.workspace]
-members = ["packages/*"]
+kedro-dagster = { git = "https://github.com/gtauzin/kedro-dagster.git", branch = "main" }
 
 [tool.kedro]
 project_name = "kedro-dagster-example"

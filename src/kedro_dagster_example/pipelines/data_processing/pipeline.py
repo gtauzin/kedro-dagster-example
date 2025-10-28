@@ -24,18 +24,6 @@ def create_pipeline(**kwargs) -> Pipeline:
             outputs="preprocessed_companies",
             name="concatenate_preprocessed_companies_partitions_node",
         ),
-        # node(
-        #     func=concatenate_partitions,
-        #     inputs="companies_partition",
-        #     outputs="companies",
-        #     name="concatenate_companies_partitions_node",
-        # ),
-        # node(
-        #     func=preprocess_companies,
-        #     inputs="companies",
-        #     outputs="preprocessed_companies",
-        #     name="preprocess_companies_node",
-        # ),
         node(
             func=concatenate_partitions,
             inputs="shuttles_partition",

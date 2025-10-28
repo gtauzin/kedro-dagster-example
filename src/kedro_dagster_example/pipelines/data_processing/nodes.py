@@ -2,6 +2,7 @@ from collections.abc import Callable
 from typing import Any
 
 import pandas as pd
+from kedro_dagster import NOTHING_OUTPUT
 
 
 def _is_true(x: pd.Series) -> pd.Series:
@@ -22,7 +23,7 @@ def _parse_money(x: pd.Series) -> pd.Series:
 
 def concatenate_partitions(
     df_partitions: dict[str, Callable[[], Any]],
-    are_partitions_processed: bool = True,
+    are_partitions_processed: None = None,
 ) -> pd.DataFrame:
     """Concatenate input partitions into one pandas DataFrame.
 
@@ -47,7 +48,7 @@ def concatenate_partitions(
     return df
 
 
-def preprocess_companies(companies: pd.DataFrame) -> pd.DataFrame:
+def preprocess_companies(companies: dict) -> pd.DataFrame:
     """Preprocesses the data for companies.
 
     Args:
@@ -58,9 +59,15 @@ def preprocess_companies(companies: pd.DataFrame) -> pd.DataFrame:
         Preprocessed data, with `company_rating` converted to a float and
         `iata_approved` converted to boolean.
     """
-    companies["iata_approved"] = _is_true(companies["iata_approved"])
-    companies["company_rating"] = _parse_percentage(companies["company_rating"])
-    return companies  # , True
+    preprocess_companies = {}
+    for upstream_partition_key, companies_df_load_fn in companies.items():
+        preprocess_companies_df = companies_df_load_fn()
+        preprocess_companies_df["iata_approved"] = _is_true(preprocess_companies_df["iata_approved"])
+        preprocess_companies_df["company_rating"] = _parse_percentage(preprocess_companies_df["company_rating"])
+
+        downstream_partition_key = upstream_partition_key.split(".csv")[0] + "0.csv"
+        preprocess_companies[downstream_partition_key] = preprocess_companies_df
+    return preprocess_companies, NOTHING_OUTPUT
 
 
 def preprocess_shuttles(shuttles: pd.DataFrame) -> pd.DataFrame:
