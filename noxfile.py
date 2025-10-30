@@ -14,7 +14,7 @@ nox.options.sessions = ["fix", "tests"]
 
 # Test sessions for different Python versions
 @nox.session(python=["3.10", "3.11", "3.12", "3.13"], venv_backend="uv")
-def tests_coverage(session: nox.Session) -> None:
+def tests(session: nox.Session) -> None:
     """Run the tests with pytest under the specified Python version."""
     session.env["COVERAGE_FILE"] = f".coverage.{session.python}"
     session.env["COVERAGE_PROCESS_START"] = "pyproject.toml"
