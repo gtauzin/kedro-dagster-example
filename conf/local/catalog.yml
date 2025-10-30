@@ -12,38 +12,6 @@
 # https://docs.kedro.org/en/stable/data/data_catalog.html
 
 
-reviews_partition:
-  type: partitions.PartitionedDataset
-  path: data/01_raw/reviews/
-  dataset:
-    type: pandas.CSVDataset
-  filename_suffix: ".csv"
-  metadata:
-      description: "Partition of raw CSV file containing reviews' data."
-
-shuttles_partition:
-  type: partitions.PartitionedDataset
-  path: data/01_raw/shuttles/
-  dataset:
-    type: pandas.CSVDataset
-  filename_suffix: ".csv"
-  metadata:
-      description: "Partition of raw CSV file containing shuttles' data."
-
-reviews:
-  type: pandas.CSVDataset
-  filepath: data/01_raw/reviews.csv
-  metadata:
-    description: "A CSV file containing raw reviews' data."
-
-shuttles:
-  type: pandas.ExcelDataset
-  filepath: data/01_raw/shuttles.xlsx
-  load_args:
-    engine: openpyxl
-  metadata:
-    description: "An Excel file containing raw shuttles' data."
-
 "{namespace}.preprocessed_companies_dagster_partition":
   type: kedro_dagster.DagsterPartitionedDataset
   path: data/02_intermediate/local/{namespace}/preprocessed_companies/
@@ -54,14 +22,6 @@ shuttles:
     partition_keys: ["10.csv","20.csv", "30.csv"]
   metadata:
       description: "Dagster partition of raw CSV file containing preprocessed companies' data."
-
-companies_partition:
-  type: partitions.PartitionedDataset
-  path: data/01_raw/companies/
-  dataset:
-    type: pandas.CSVDataset
-  metadata:
-      description: "Partition of raw CSV file containing reviews' data."
 
 "{namespace}.preprocessed_companies_partition":
   type: partitions.PartitionedDataset

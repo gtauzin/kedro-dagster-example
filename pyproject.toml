@@ -14,22 +14,23 @@ authors = [
 maintainers = [
   { name = "Guillaume Tauzin", email = "gtauzin.github@pm.me" }
 ]
-description = "Kedro project for presenting the `kedro-dagster` plugin."
+description = "Kedro project for showcasing the `kedro-dagster` plugin."
 readme.content-type = "text/markdown"
 readme.file = "README.md"
 requires-python = ">=3.10, <3.14"
 dependencies = [
-    "kedro>=0.19.11,<1.0",
+    "kedro==1.0.0",
     "kedro-datasets[pandas-csvdataset, pandas-exceldataset, pandas-parquetdataset, optuna-studydataset]>=7.0",
     "kedro-dagster",
     "kedro-mlflow>=0.14.3",
-    "dagster==1.11.13",
+    "dagster==1.11.16",
     # Pinning dagster versions pins dagster integrations' versions too
     "dagster-mlflow",
     "scikit-learn>=1.5",
     "mlflow>=2.20",
     "optuna>=4.2",
     "optuna-integration>=4.2",
+  "psycopg2-binary>=2.9",
 ]
 
 [project.scripts]
@@ -77,12 +78,13 @@ test = [
 ]
 
 [tool.uv.sources]
-kedro-dagster = { git = "https://github.com/gtauzin/kedro-dagster.git", branch = "main" }
+kedro-dagster = { git = "https://github.com/gtauzin/kedro-dagster.git", branch = "version_compat" }
+kedro-datasets = { git = "https://github.com/kedro-org/kedro-plugins.git", branch = "main", subdirectory = "kedro-datasets" }
 
 [tool.kedro]
 project_name = "kedro-dagster-example"
 package_name = "kedro_dagster_example"
-kedro_init_version = "0.19.8"
+kedro_init_version = "1.0.0"
 source_dir = "src"
 
 [tool.ruff]
@@ -118,30 +120,9 @@ ignore=[
 ]
 
 [tool.ruff.lint.per-file-ignores]
-# It's fine not to put the import at the top of the file in the examples
+# It's fine not to put the import at the top of the file in the notebooks
 # folder.
 "notebooks/*"=["E402", "F821"]
-
-[tool.pytest.ini_options]
-addopts = """
---doctest-modules --color=yes \
---cov-report term-missing \
---cov src/wavy -ra"""
-doctest_optionflags = "NORMALIZE_WHITESPACE"
-
-[tool.coverage]
-paths.source = ["src/wavy"]
-report.fail_under = 10
-report.include_namespace_packages = true
-report.skip_covered = false
-html.show_contexts = true
-run.omit = [
-    "tests/*",
-]
-run.parallel = true
-run.plugins = [
-  "covdefaults",
-]
 
 [tool.kedro_telemetry]
 project_id = "f6961915dfa1422aad723fd0b48ff401"

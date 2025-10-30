@@ -29,12 +29,12 @@ price_predictor:
   base:
     study_params: &price_predictor_base_study_params
       <<: *base_study_params
-      n_trials_per_process: 10
+      n_trials_per_process: 1
 
   candidate1:
     study_params:
       <<: *price_predictor_base_study_params
-      n_trials_per_process: 12
+      n_trials_per_process: 1
 
   test1:
     study_params:
@@ -45,9 +45,9 @@ reviews_predictor:
   base:
     study_params: &reviews_predictor_base_study_params
       <<: *base_study_params
-      n_trials_per_process: 2
+      n_trials_per_process: 1
 
   candidate1:
     study_params:
       <<: *reviews_predictor_base_study_params
-      n_trials_per_process: 21
+      n_trials_per_process: 3

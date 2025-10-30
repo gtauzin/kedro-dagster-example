@@ -45,23 +45,3 @@ shuttles_partition:
     type: pandas.CSVDataset
   metadata:
       description: "Partition of raw CSV file containing shuttles' data."
-
-companies:
-  type: pandas.CSVDataset
-  filepath: data/01_raw/companies.csv
-  metadata:
-    description: "A CSV file containing raw companies' data."
-
-reviews:
-  type: pandas.CSVDataset
-  filepath: data/01_raw/reviews.csv
-  metadata:
-    description: "A CSV file containing raw reviews' data."
-
-shuttles:
-  type: pandas.ExcelDataset
-  filepath: data/01_raw/shuttles.xlsx
-  load_args:
-    engine: openpyxl
-  metadata:
-    description: "An Excel file containing raw shuttles' data."

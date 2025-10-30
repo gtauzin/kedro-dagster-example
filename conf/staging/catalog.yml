@@ -54,7 +54,7 @@
     descriptions: "Tuning study for {variant} model for {namespace}."
 
 "{namespace}.{variant}.tuning_node_done_{i_tuning_node}":
-  type: MemoryDataset
+  type: kedro_dagster.DagsterNothingDataset
   metadata:
     descriptions: "Placeholder output for tuning node {i_tuning_node} to enforce order."
 

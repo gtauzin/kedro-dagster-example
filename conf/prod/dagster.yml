@@ -21,7 +21,8 @@ jobs:
   reviews_predictor_data_processing_base:
     pipeline:
       pipeline_name: data_processing
-      node_namespace: reviews_predictor
+      node_namespaces:
+      - reviews_predictor
       tags:
       - base
     executor: multiprocessing
@@ -30,7 +31,8 @@ jobs:
   reviews_predictor_data_science_base:
     pipeline:
       pipeline_name: data_science
-      node_namespace: reviews_predictor
+      node_namespaces:
+      - reviews_predictor
       tags:
       - base
     executor: multiprocessing
@@ -39,7 +41,8 @@ jobs:
   price_predictor_data_processing_base:
     pipeline:
       pipeline_name: data_processing
-      node_namespace: price_predictor
+      node_namespaces:
+      - price_predictor
       tags:
       - base
     executor: sequential
@@ -48,7 +51,8 @@ jobs:
   price_predictor_data_science_base:
     pipeline:
       pipeline_name: data_science
-      node_namespace: price_predictor
+      node_namespaces:
+      - price_predictor
       tags:
       - base
     executor: sequential

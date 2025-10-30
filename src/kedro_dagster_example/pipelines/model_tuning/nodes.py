@@ -6,6 +6,7 @@ import mlflow
 import numpy as np
 import optuna
 import pandas as pd
+from kedro_dagster import NOTHING_OUTPUT
 from optuna.integration.mlflow import MLflowCallback
 from sklearn.base import RegressorMixin, clone
 from sklearn.metrics import make_scorer, root_mean_squared_error
@@ -108,7 +109,7 @@ def tune_model(
         callbacks=[mlflow_callback],
     )
 
-    return None
+    return NOTHING_OUTPUT
 
 
 def log_study(study, *tuning_nodes_done):

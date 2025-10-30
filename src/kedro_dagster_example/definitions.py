@@ -5,7 +5,7 @@ import os
 import dagster as dg
 from kedro_dagster import KedroProjectTranslator
 
-KEDRO_ENV = os.getenv("KEDRO_ENV", "dev")
+KEDRO_ENV = os.getenv("KEDRO_ENV", "local")
 
 translator = KedroProjectTranslator(env=KEDRO_ENV)
 dagster_code_location = translator.to_dagster()

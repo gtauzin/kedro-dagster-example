@@ -1,4 +1,4 @@
-from kedro.pipeline import Pipeline, node, pipeline
+from kedro.pipeline import Node, Pipeline, pipeline
 
 from kedro_dagster_example import settings
 from kedro_dagster_example.pipelines.data_science.nodes import split_data
@@ -9,14 +9,14 @@ n_tuning_processes = 2
 
 
 def create_pipeline(**kwargs) -> Pipeline:
-    model_tuning_pipeline = pipeline([
-        node(
+    model_tuning_pipeline = Pipeline([
+        Node(
             func=split_data,
             inputs=["model_input_table", "params:model_options"],
             outputs=["X_train_tuning", "X_test_tuning", "y_train_tuning", "y_test_tuning"],
             name="split_data_tuning_node",
         ),
-        node(
+        Node(
             func=create_study,
             inputs=None,
             outputs="study",
@@ -25,8 +25,8 @@ def create_pipeline(**kwargs) -> Pipeline:
     ])
 
     for i_tuning_process in range(n_tuning_processes):
-        model_tuning_pipeline += pipeline([
-            node(
+        model_tuning_pipeline += Pipeline([
+            Node(
                 func=tune_model,
                 inputs=["X_train_tuning", "y_train_tuning", "study", "params:study_params"],
                 outputs=f"tuning_node_done_{i_tuning_process}",
@@ -34,8 +34,8 @@ def create_pipeline(**kwargs) -> Pipeline:
             ),
         ])
 
-    model_tuning_pipeline += pipeline([
-        node(
+    model_tuning_pipeline += Pipeline([
+        Node(
             func=log_study,
             inputs=["study"]
             + [f"tuning_node_done_{i_tuning_process}" for i_tuning_process in range(n_tuning_processes)],
