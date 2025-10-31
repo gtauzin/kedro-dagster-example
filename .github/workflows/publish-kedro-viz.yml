@@ -15,6 +15,9 @@ jobs:
   deploy-viz:
     name: Deploy Kedro Viz
     runs-on: ubuntu-latest
+    env:
+      KEDRO_ENV: local
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -48,7 +51,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           name: github-pages-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}
-          path: "./build"
+          path: "${{ github.workspace }}/build"
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
