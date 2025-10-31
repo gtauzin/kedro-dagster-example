@@ -72,7 +72,7 @@ tests = [
 ]
 
 [tool.uv.sources]
-kedro-dagster = { git = "https://github.com/gtauzin/kedro-dagster.git", branch = "version_compat" }
+kedro-dagster = { git = "https://github.com/gtauzin/kedro-dagster.git", branch = "main" }
 kedro-datasets = { git = "https://github.com/kedro-org/kedro-plugins.git", branch = "main", subdirectory = "kedro-datasets" }
 
 [tool.kedro]
