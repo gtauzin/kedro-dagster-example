@@ -1,4 +1,4 @@
-name: checks
+name: Run linter and tests
 on:
   workflow_dispatch:
   push:

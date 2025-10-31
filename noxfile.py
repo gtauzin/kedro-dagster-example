@@ -41,7 +41,7 @@ def tests(session: nox.Session, kedro_env: str) -> None:
         env={"UV_PROJECT_ENVIRONMENT": session.virtualenv.location},
     )
 
-    # Run unit tests under coverage
+    # Run unit tests
     session.run(
         "uv",
         "run",

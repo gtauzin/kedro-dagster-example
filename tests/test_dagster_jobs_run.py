@@ -71,9 +71,9 @@ def test_all_dagster_jobs_run_for_all_envs(env, job):
         os.environ.setdefault("POSTGRES_PORT", "5432")
         try:
             result = job_def.execute_in_process(resources=resources, raise_on_error=False)
-        except Exception as e:  # pragma: no cover - environment-specific infra may be unavailable in CI
+        except Exception as exc:
             pytest.skip(
-                f"Skipping job '{job_name}' in env={env} due to execution-time failure: {type(e).__name__}: {e}"
+                f"Skipping job '{job_name}' in env={env} due to execution-time failure: {type(exc).__name__}: {exc}"
             )
         if not result.success:
             pytest.skip(f"Dagster job '{job_name}' did not succeed in env={env}: {result}")

@@ -67,8 +67,6 @@ def test_all_pipelines_run_for_all_tags(env, tag):
     # Run each pipeline in its own session
     for pipeline_name in pipeline_names:
         with KedroSession.create(project_path=PROJECT_PATH, env=env) as session:
-            # For data_science and model_tuning, use namespace tag to scope execution.
-            # data_processing lacks namespace tags, so we run the full pipeline.
             run_kwargs = {"pipeline_name": pipeline_name}
             if pipeline_name in ("data_science", "model_tuning"):
                 run_kwargs["tags"] = [tag]
