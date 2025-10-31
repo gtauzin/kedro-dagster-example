@@ -39,7 +39,7 @@ jobs:
 
       - name: Create build directory
         run: |
-          if !(kedro viz build --include-hooks |& tee /dev/stderr | grep -i -q "Success!"); then
+          if !(uv run kedro viz build --include-hooks |& tee /dev/stderr | grep -i -q "Success!"); then
             exit 1
           fi
         shell: bash
