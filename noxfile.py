@@ -47,8 +47,8 @@ def tests(session: nox.Session, kedro_env: str) -> None:
         "run",
         "pytest",
         "tests",
-        "-m",
-        f"env={kedro_env}",
+        "-k",
+        kedro_env,
         *session.posargs,
     )
 
