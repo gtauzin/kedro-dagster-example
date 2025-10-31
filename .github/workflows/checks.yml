@@ -1,0 +1,131 @@
+name: Run linter and tests
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+    tags-ignore: ["**"]
+  pull_request:
+
+permissions:
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+env:
+  POSTGRES_DB: dev_db
+  POSTGRES_USER: dev_user
+  POSTGRES_PASSWORD: dev_password
+  POSTGRES_HOST: localhost
+  POSTGRES_PORT: "5432"
+
+jobs:
+  # Cross-platform checks without DB service (services are not supported on macOS/Windows runners)
+  ckeck:
+    name: Coverage tests for ${{ matrix.python-version }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version:
+          - "3.10"
+          - "3.11"
+          - "3.12"
+          - "3.13"
+        os:
+          - macos-latest
+          - windows-latest
+        kedro-env:
+          - local
+          - staging
+          - prod
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+          cache-dependency-glob: "pyproject.toml"
+
+      - name: Add .local/bin to Windows PATH
+        if: matrix.os == 'windows-latest'
+        shell: bash
+        run: echo "$USERPROFILE/.local/bin" >> $GITHUB_PATH
+
+      - name: Install nox
+        run: uv tool install --python-preference only-managed --python ${{ matrix.python-version }} nox
+
+      - name: Install Python
+        run: uv python install --python-preference only-managed ${{ matrix.python-version }}
+
+      - name: Run checks
+        run: nox -s fix
+
+      - name: Run tests
+        run: nox -s "tests-${{ matrix.python-version }}(kedro_env='${{ matrix.kedro-env }}')"
+        env:
+          DIFF_AGAINST: HEAD
+          PYTEST_XDIST_AUTO_NUM_WORKERS: 0
+
+  # Ubuntu-only matrix with a PostgreSQL service available for tests
+  checks_postgres:
+    name: Coverage tests with Postgres for ${{ matrix.python-version }} running with ${{ matrix.kedro-env}} env on ubuntu-latest
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version:
+          - "3.10"
+          - "3.11"
+          - "3.12"
+          - "3.13"
+        kedro-env:
+          - local
+          - dev
+          - staging
+          - prod
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: dev_db
+          POSTGRES_USER: dev_user
+          POSTGRES_PASSWORD: dev_password
+        ports:
+          - 5432:5432
+        # Wait until Postgres is healthy before running steps
+        options: >-
+          --health-cmd="pg_isready -U dev_user -d dev_db"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=12
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+          cache-dependency-glob: "pyproject.toml"
+
+      - name: Install nox
+        run: uv tool install --python-preference only-managed --python ${{ matrix.python-version }} nox
+
+      - name: Install Python
+        run: uv python install --python-preference only-managed ${{ matrix.python-version }}
+
+      - name: Run checks
+        run: nox -s fix
+
+      - name: Run tests with Postgres service
+        run: nox -s "tests-${{ matrix.python-version }}(kedro_env='${{ matrix.kedro-env }}')"
+        env:
+          DIFF_AGAINST: HEAD
+          PYTEST_XDIST_AUTO_NUM_WORKERS: 0

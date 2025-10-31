@@ -17,7 +17,8 @@ jobs:
   price_predictor_data_processing_test1:
     pipeline:
       pipeline_name: data_processing
-      node_namespace: price_predictor
+      node_namespaces:
+      - price_predictor
       tags:
       - test1
     executor: sequential
@@ -25,7 +26,8 @@ jobs:
   price_predictor_data_science_test1:
     pipeline:
       pipeline_name: data_science
-      node_namespace: price_predictor
+      node_namespaces:
+      - price_predictor
       tags:
       - test1
     executor: sequential
@@ -33,7 +35,8 @@ jobs:
   price_predictor_model_tuning_test1:
     pipeline:
       pipeline_name: model_tuning
-      node_namespace: price_predictor
+      node_namespaces:
+      - price_predictor
       tags:
       - test1
     executor: multiprocessing

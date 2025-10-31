@@ -1,4 +1,4 @@
-from kedro.pipeline import Pipeline, node, pipeline
+from kedro.pipeline import Node, Pipeline, pipeline
 
 from kedro_dagster_example import settings
 
@@ -11,38 +11,38 @@ from .nodes import (
 
 
 def create_pipeline(**kwargs) -> Pipeline:
-    data_processing = pipeline([
-        node(
+    data_processing = Pipeline([
+        Node(
             func=preprocess_companies,
             inputs="companies_dagster_partition",
             outputs=["preprocessed_companies_dagster_partition", "is_company_preprocessing_done"],
             name="preprocess_companies_node",
         ),
-        node(
+        Node(
             func=concatenate_partitions,
             inputs=["preprocessed_companies_partition", "is_company_preprocessing_done"],
             outputs="preprocessed_companies",
             name="concatenate_preprocessed_companies_partitions_node",
         ),
-        node(
+        Node(
             func=concatenate_partitions,
             inputs="shuttles_partition",
             outputs="shuttles",
             name="concatenate_shuttless_partitions_node",
         ),
-        node(
+        Node(
             func=concatenate_partitions,
             inputs="reviews_partition",
             outputs="reviews",
             name="concatenate_reviews_partitions_node",
         ),
-        node(
+        Node(
             func=preprocess_shuttles,
             inputs="shuttles",
             outputs="preprocessed_shuttles",
             name="preprocess_shuttles_node",
         ),
-        node(
+        Node(
             func=create_model_input_table,
             inputs=["preprocessed_shuttles", "preprocessed_companies", "reviews"],
             outputs="model_input_table",
@@ -51,7 +51,7 @@ def create_pipeline(**kwargs) -> Pipeline:
     ])
 
     pipes = []
-    for namespace in settings.DYNAMIC_PIPELINES_MAPPING.keys():
+    for namespace, variants in settings.DYNAMIC_PIPELINES_MAPPING.items():
         pipes.append(
             pipeline(
                 data_processing,
@@ -61,7 +61,7 @@ def create_pipeline(**kwargs) -> Pipeline:
                     "reviews_partition": "reviews_partition",
                 },
                 namespace=namespace,
-                tags=settings.DYNAMIC_PIPELINES_MAPPING[namespace],
+                tags=variants,
             )
         )
 

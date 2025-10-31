@@ -12,6 +12,28 @@
 # https://docs.kedro.org/en/stable/data/data_catalog.html
 
 
+"{namespace}.preprocessed_companies_dagster_partition":
+  type: kedro_dagster.DagsterPartitionedDataset
+  path: data/02_intermediate/dev/{namespace}/preprocessed_companies/
+  dataset:
+    type: pandas.CSVDataset
+  partition:
+    type: dagster.StaticPartitionsDefinition
+    partition_keys: ["10.csv","20.csv", "30.csv"]
+  metadata:
+      description: "Dagster partition of raw CSV file containing preprocessed companies' data."
+
+"{namespace}.preprocessed_companies_partition":
+  type: partitions.PartitionedDataset
+  path: data/02_intermediate/dev/{namespace}/preprocessed_companies/
+  dataset:
+    type: pandas.CSVDataset
+  metadata:
+      description: "Partition of raw CSV file containing preprrocessed companies' data."
+
+"{namespace}.is_company_preprocessing_done":
+  type: kedro_dagster.DagsterNothingDataset
+
 "{namespace}.preprocessed_companies":
   type: pandas.ParquetDataset
   filepath: data/02_intermediate/dev/{namespace}/preprocessed_companies.pq
@@ -38,7 +60,7 @@
     descriptions: "Regressor trained for {variant} model for {namespace}."
 
 "{namespace}.{variant}.study":
-  type: kedro_dagster_example.study_dataset.StudyDataset
+  type: kedro_datasets_experimental.optuna.StudyDataset
   backend: postgresql
   database: dev_db
   study_name: "{namespace}.{variant}"
@@ -55,7 +77,7 @@
     descriptions: "Tuning study for {variant} model for {namespace}."
 
 "{namespace}.{variant}.tuning_node_done_{i_tuning_node}":
-  type: MemoryDataset
+  type: kedro_dagster.DagsterNothingDataset
   metadata:
     descriptions: "Placeholder output for tuning node {i_tuning_node} to enforce order."
 

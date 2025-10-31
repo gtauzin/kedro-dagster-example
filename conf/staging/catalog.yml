@@ -11,6 +11,27 @@
 # (transcoding), templating and a way to reuse arguments that are frequently repeated. See more here:
 # https://docs.kedro.org/en/stable/data/data_catalog.html
 
+"{namespace}.preprocessed_companies_dagster_partition":
+  type: kedro_dagster.DagsterPartitionedDataset
+  path: data/02_intermediate/staging/{namespace}/preprocessed_companies/
+  dataset:
+    type: pandas.CSVDataset
+  partition:
+    type: dagster.StaticPartitionsDefinition
+    partition_keys: ["10.csv","20.csv", "30.csv"]
+  metadata:
+      description: "Dagster partition of raw CSV file containing preprocessed companies' data."
+
+"{namespace}.preprocessed_companies_partition":
+  type: partitions.PartitionedDataset
+  path: data/02_intermediate/staging/{namespace}/preprocessed_companies/
+  dataset:
+    type: pandas.CSVDataset
+  metadata:
+      description: "Partition of raw CSV file containing preprrocessed companies' data."
+
+"{namespace}.is_company_preprocessing_done":
+  type: kedro_dagster.DagsterNothingDataset
 
 "{namespace}.preprocessed_companies":
   type: pandas.ParquetDataset
@@ -36,35 +57,3 @@
   artifact_path: "{namespace}/{variant}/regressor"
   metadata:
     descriptions: "Regressor trained for {variant} model for {namespace}."
-
-"{namespace}.{variant}.study":
-  type: kedro_datasets_experimental.optuna.StudyDataset
-  backend: sqlite
-  database: data/06_models/staging/{namespace}/{variant}/optuna.db
-  study_name: "{namespace}.{variant}"
-  load_args:
-    sampler:
-      class: TPESampler
-      n_startup_trials: 2
-      n_ei_candidates: 5
-    pruner:
-      class: NopPruner
-  versioned: true
-  metadata:
-    descriptions: "Tuning study for {variant} model for {namespace}."
-
-"{namespace}.{variant}.tuning_node_done_{i_tuning_node}":
-  type: MemoryDataset
-  metadata:
-    descriptions: "Placeholder output for tuning node {i_tuning_node} to enforce order."
-
-"{namespace}.{variant}.study_artifact":
-  type: kedro_mlflow.io.artifacts.MlflowArtifactDataset
-  dataset:
-    type: kedro_datasets_experimental.optuna.StudyDataset
-    backend: sqlite
-    database: data/06_models/staging/{namespace}/{variant}/optuna_sqlite.db
-    study_name: "{namespace}.{variant}"
-  artifact_path: "{namespace}/{variant}"
-  metadata:
-    descriptions: "Tuning study MLFlow artifact for {variant} model for {namespace}."

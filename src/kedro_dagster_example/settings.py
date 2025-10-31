@@ -26,10 +26,9 @@ https://docs.kedro.org/en/stable/kedro_project_setup/settings.html.
 import os
 
 from kedro.config import OmegaConfigLoader
-from kedro.io import KedroDataCatalog
 from omegaconf.resolvers import oc
 
-KEDRO_ENV = os.getenv("KEDRO_ENV")
+KEDRO_ENV = os.getenv("KEDRO_ENV", "local")
 
 CONFIG_LOADER_CLASS = OmegaConfigLoader
 # Keyword arguments to pass to the `CONFIG_LOADER_CLASS` constructor.
@@ -40,7 +39,6 @@ CONFIG_LOADER_ARGS = {
         "oc.env": oc.env,
     },
 }
-DATA_CATALOG_CLASS = KedroDataCatalog
 
 if KEDRO_ENV == "local":
     DYNAMIC_PIPELINES_MAPPING = {
@@ -65,3 +63,5 @@ elif KEDRO_ENV == "prod":
         "reviews_predictor": ["base"],
         "price_predictor": ["base"],
     }
+else:
+    raise ValueError(f"Unknown KEDRO_ENV value: {KEDRO_ENV}")
