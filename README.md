@@ -6,10 +6,9 @@
   </picture>
 </p>
 
-
 ![Powered by Kedro](https://img.shields.io/badge/powered_by-kedro-ffc900?logo=kedro)
 
-This repository aims to demonstrate the [`kedro-dagster`](https://github.com/gtauzin/kedro-dagster) plugin in the context of a real‑world, deployed Kedro project.
+This repository aims to demonstrate the [`kedro-dagster`](https://github.com/gtauzin/kedro-dagster) plugin in the context of a real‑world, deployed Kedro project. For a full user guide centered around this example repository, see the [Kedro-Dagster documentation](https://gtauzin.github.io/kedro-dagster/pages/example/).
 
 <p align="center">
   <picture>
