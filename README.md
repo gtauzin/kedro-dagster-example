@@ -1,4 +1,11 @@
-# kedro-dagster-example
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/gtauzin/kedro-dagster-example/main/.github/logo_light.png">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/gtauzin/kedro-dagster-example/main/.github/logo_dark.png">
+    <img src="https://raw.githubusercontent.com/gtauzin/kedro-dagster-example/main/.github/logo_light.png" alt="Kedro-Dagster">
+  </picture>
+</p>
+
 
 ![Powered by Kedro](https://img.shields.io/badge/powered_by-kedro-ffc900?logo=kedro)
 
