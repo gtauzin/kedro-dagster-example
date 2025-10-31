@@ -37,7 +37,6 @@ jobs:
           - windows-latest
         kedro-env:
           - local
-          - dev
           - staging
           - prod
     steps:
@@ -74,7 +73,7 @@ jobs:
 
   # Ubuntu-only matrix with a PostgreSQL service available for tests
   checks_postgres:
-    name: Coverage tests with Postgres for ${{ matrix.python-version }} on ubuntu-latest
+    name: Coverage tests with Postgres for ${{ matrix.python-version }} running with ${{ matrix.kedro-env}} env on ubuntu-latest
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
