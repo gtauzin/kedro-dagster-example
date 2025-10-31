@@ -12,6 +12,12 @@ permissions:
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
+env:
+  POSTGRES_DB: dev_db
+  POSTGRES_USER: dev_user
+  POSTGRES_PASSWORD: dev_password
+  POSTGRES_HOST: localhost
+  POSTGRES_PORT: "5432"
 
 jobs:
   # Cross-platform checks without DB service (services are not supported on macOS/Windows runners)
@@ -124,8 +130,3 @@ jobs:
         env:
           DIFF_AGAINST: HEAD
           PYTEST_XDIST_AUTO_NUM_WORKERS: 0
-          POSTGRES_DB: dev_db
-          POSTGRES_USER: dev_user
-          POSTGRES_PASSWORD: dev_password
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: "5432"
