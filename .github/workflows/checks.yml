@@ -29,6 +29,11 @@ jobs:
         os:
           - macos-latest
           - windows-latest
+        kedro-env:
+          - local
+          - dev
+          - staging
+          - prod
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -56,7 +61,7 @@ jobs:
         run: nox -s fix
 
       - name: Run tests
-        run: nox -s tests --python ${{ matrix.python-version }}
+        run: nox -s "tests-${{ matrix.python-version }}(kedro_env='${{ matrix.kedro-env }}')"
         env:
           DIFF_AGAINST: HEAD
           PYTEST_XDIST_AUTO_NUM_WORKERS: 0
@@ -73,18 +78,23 @@ jobs:
           - "3.11"
           - "3.12"
           - "3.13"
+        kedro-env:
+          - local
+          - dev
+          - staging
+          - prod
     services:
       postgres:
         image: postgres:16
         env:
-          POSTGRES_USER: dev_db
-          POSTGRES_PASSWORD: dev_password
           POSTGRES_DB: dev_db
+          POSTGRES_USER: dev_user
+          POSTGRES_PASSWORD: dev_password
         ports:
           - 5432:5432
         # Wait until Postgres is healthy before running steps
         options: >-
-          --health-cmd="pg_isready -U dev_db -d dev_db"
+          --health-cmd="pg_isready -U dev_user -d dev_db"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=12
@@ -109,13 +119,13 @@ jobs:
       - name: Run checks
         run: nox -s fix
 
-      - name: Run tests (with Postgres service)
-        run: nox -s tests --python ${{ matrix.python-version }}
+      - name: Run tests with Postgres service
+        run: nox -s "tests-${{ matrix.python-version }}(kedro_env='${{ matrix.kedro-env }}')"
         env:
           DIFF_AGAINST: HEAD
           PYTEST_XDIST_AUTO_NUM_WORKERS: 0
-          POSTGRES_USER: dev_db
-          POSTGRES_PASSWORD: dev_password
           POSTGRES_DB: dev_db
+          POSTGRES_USER: dev_user
+          POSTGRES_PASSWORD: dev_password
           POSTGRES_HOST: localhost
           POSTGRES_PORT: "5432"

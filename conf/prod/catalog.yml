@@ -11,6 +11,27 @@
 # (transcoding), templating and a way to reuse arguments that are frequently repeated. See more here:
 # https://docs.kedro.org/en/stable/data/data_catalog.html
 
+"{namespace}.preprocessed_companies_dagster_partition":
+  type: kedro_dagster.DagsterPartitionedDataset
+  path: data/02_intermediate/prod/{namespace}/preprocessed_companies/
+  dataset:
+    type: pandas.CSVDataset
+  partition:
+    type: dagster.StaticPartitionsDefinition
+    partition_keys: ["10.csv","20.csv", "30.csv"]
+  metadata:
+      description: "Dagster partition of raw CSV file containing preprocessed companies' data."
+
+"{namespace}.preprocessed_companies_partition":
+  type: partitions.PartitionedDataset
+  path: data/02_intermediate/prod/{namespace}/preprocessed_companies/
+  dataset:
+    type: pandas.CSVDataset
+  metadata:
+      description: "Partition of raw CSV file containing preprrocessed companies' data."
+
+"{namespace}.is_company_preprocessing_done":
+  type: kedro_dagster.DagsterNothingDataset
 
 "{namespace}.preprocessed_companies":
   type: pandas.ParquetDataset

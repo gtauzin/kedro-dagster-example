@@ -51,7 +51,7 @@ def create_pipeline(**kwargs) -> Pipeline:
     ])
 
     pipes = []
-    for namespace in settings.DYNAMIC_PIPELINES_MAPPING.keys():
+    for namespace, variants in settings.DYNAMIC_PIPELINES_MAPPING.items():
         pipes.append(
             pipeline(
                 data_processing,
@@ -61,7 +61,7 @@ def create_pipeline(**kwargs) -> Pipeline:
                     "reviews_partition": "reviews_partition",
                 },
                 namespace=namespace,
-                tags=settings.DYNAMIC_PIPELINES_MAPPING[namespace],
+                tags=variants,
             )
         )
 

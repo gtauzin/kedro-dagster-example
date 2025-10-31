@@ -163,7 +163,8 @@ tmp**
 # Kedro files
 .telemetry
 
-conf/**/*credentials*
+# Push credentials as well as this is an example project
+# conf/**/*credentials*
 
 .viz/
 

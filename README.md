@@ -35,7 +35,7 @@ A variety of Kedro environments highlight how a Kedro + Dagster deployment mig
 In this repo, each environment’s `catalog.yml` points to local data. In practice, you might keep local data only in `local` and configure remote datasets for `dev`, `staging`, and `prod`.
 
 > [!NOTE]
-> You may also choose to use separate Git branches for `prod`, `staging`, and various `dev` environments.
+> You may also choose to use separate Git branches for `prod`, `staging`, and various `dev` environments. This enables more controlled deployments and easier rollbacks.
 
 ## Installation
 
@@ -82,6 +82,28 @@ kedro dagster dev
 ```
 
 You’ll see your Kedro datasets as Dagster assets and your pipelines as Dagster jobs.
+
+The `dev` environments require a Postgres database. You can run one locally using Docker:
+
+```bash
+docker compose -f docker/pipelines-dev.docker-compose.yml up -d
+```
+
+Then, set the appropriate environment variables so that the Kedro catalog can connect to the database:
+
+```bash
+export POSTGRES_USER=dev_db
+export POSTGRES_PASSWORD=dev_password
+export POSTGRES_HOST=localhost
+export POSTGRES_PORT=5432
+```
+
+Finally, run the Dagster UI for the desired environment:
+
+```bash
+export KEDRO_ENV=dev
+kedro dagster dev
+```
 
 ### Deploying the Pipelines
 

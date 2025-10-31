@@ -38,16 +38,6 @@ jobs:
     executor: sequential
     schedule: daily
 
-  reviews_predictor_model_tuning_candidate1:
-    pipeline:
-      pipeline_name: model_tuning
-      node_namespaces:
-      - reviews_predictor
-      tags:
-      - candidate1
-    executor: multiprocessing
-    schedule: daily
-
   price_predictor_data_processing_candidate1:
     pipeline:
       pipeline_name: data_processing
