@@ -1,6 +1,5 @@
-import logging
-
 import pandas as pd
+from kedro_dagster import logging
 from sklearn.base import RegressorMixin
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
@@ -18,6 +17,8 @@ def split_data(data: pd.DataFrame, parameters: dict) -> tuple:
     -------
         Split data.
     """
+    logger = logging.getLogger(__name__)
+    logger.info("Splitting data into training and test sets")
     X = data[parameters["features"]]
     y = data["price"]
     X_train, X_test, y_train, y_test = train_test_split(
@@ -37,6 +38,8 @@ def train_model(X_train: pd.DataFrame, y_train: pd.Series) -> RegressorMixin:
     -------
         Trained model.
     """
+    logger = logging.getLogger(__name__)
+    logger.info("Training the linear regression model")
     regressor = LinearRegression()
     regressor.fit(X_train, y_train)
     return regressor
@@ -50,7 +53,7 @@ def evaluate_model(regressor: RegressorMixin, X_test: pd.DataFrame, y_test: pd.S
         X_test: Testing data of independent features.
         y_test: Testing data for price.
     """
+    logger = logging.getLogger(__name__)
     y_pred = regressor.predict(X_test)
     score = r2_score(y_test, y_pred)
-    logger = logging.getLogger(__name__)
     logger.info("Model has a coefficient R^2 of %.3f on test data.", score)

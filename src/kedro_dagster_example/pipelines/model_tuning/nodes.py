@@ -6,7 +6,7 @@ import mlflow
 import numpy as np
 import optuna
 import pandas as pd
-from kedro_dagster import NOTHING_OUTPUT
+from kedro_dagster import NOTHING_OUTPUT, logging
 from optuna.integration.mlflow import MLflowCallback
 from sklearn.base import RegressorMixin, clone
 from sklearn.metrics import make_scorer, root_mean_squared_error
@@ -75,6 +75,9 @@ def tune_model(
     study,
     study_params,
 ) -> dict[str, Any]:
+    logger = logging.getLogger(__name__)
+
+    logger.info("Tuning the model")
     model_params = study_params["model"]
     model_class = model_params.pop("class")
     model = instantiate_model(model_class=model_class, model_params=model_params)
@@ -113,4 +116,8 @@ def tune_model(
 
 
 def log_study(study, *tuning_nodes_done):
+    logger = logging.getLogger(__name__)
+
+    trial = study.best_trial
+    logger.info(f"Best trial: {trial.number}")
     return study

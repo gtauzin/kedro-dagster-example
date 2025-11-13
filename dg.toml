@@ -1,0 +1,61 @@
+# ("project", required) Marks this as a Dagster project.
+directory_type = "project"
+
+[project]
+root_module = "kedro_dagster_example"
+code_location_target_module = "kedro_dagster_example.definitions"
+
+# (string, optional) Specifies the project submodule where new components and
+# definitions are scaffolded.
+#
+# Defaults to `<root_module>.defs`.
+defs_module = "kedro_dagster_example"
+
+# (string, optional) Specifies the name used for the code location when the project is
+# loaded as a code location.
+#
+# Defaults to the project name (which is usually the # hyphenated variant of
+# the root module name).
+code_location_name = "kedro-dagster-example"
+
+# (list[string], optional) List of module names or name-matching patterns to include in the dg
+# registry. Defaults to `<root_module>.components`. Patterns can include `*` to match entire
+# segments of the module name. * does NOT match partial segments. Example:
+#
+# - foo.*.bar matches foo.baz.bar and foo.qux.bar
+# - foo.*bar is invalid because * does not constitute an entire segment
+#
+# When a new component is scaffolded with `dg scaffold component <module>.MyComponent`, this setting
+# will be created if it does not already exist and the module will be added to the list.
+#
+# Defaults to [].
+# registry_modules = [
+#   "kedro_dagster_example.alternate_components.*",
+# ]
+
+[cli]
+
+# (bool, optional) Specifies whether to use verbose output.
+#
+# Defaults to `false`.
+verbose = false
+
+# (list[str], optional) Specifies a list of warning IDs to suppress. Full list of warning IDs can be
+# found here: https://github.com/dagster-io/dagster/blob/master/python_modules/libraries/dagster-dg-core/dagster_dg_core/utils/warnings.py
+suppress_warnings = [
+    "cli_config_in_workspace_project",
+    "deprecated_user_config_location",
+    "deprecated_python_environment",
+    "deprecated_dagster_dg_library_entry_point",
+    "missing_dg_plugin_module_in_manifest",
+    "project_and_activated_venv_mismatch",
+]
+
+
+# Telemetry-related settings.
+# [cli.telemetry]
+
+# (bool, optional) Specifies whether to enable telemetry.
+#
+# Defaults to `true`.
+# enabled = true

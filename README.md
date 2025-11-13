@@ -83,8 +83,7 @@ assuming KEDRO_ENV is an environmental variable set to your target environment (
 To explore the pipelines in the Dagster UI:
 
 ```bash
-export KEDRO_ENV=local
-kedro dagster dev
+kedro dagster dev --env <KEDRO_ENV>
 ```
 
 You’ll see your Kedro datasets as Dagster assets and your pipelines as Dagster jobs.
@@ -107,8 +106,7 @@ export POSTGRES_PORT=5432
 Finally, run the Dagster UI for the desired environment:
 
 ```bash
-export KEDRO_ENV=dev
-kedro dagster dev
+kedro dagster dev --env dev
 ```
 
 ### Deploying the Pipelines
