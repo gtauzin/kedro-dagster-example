@@ -76,7 +76,7 @@ tests = [
 
 [tool.uv.sources]
 kedro-datasets = { git = "https://github.com/kedro-org/kedro-plugins.git", branch = "main", subdirectory = "kedro-datasets" }
-kedro-dagster = { git = "https://github.com/gtauzin/kedro-dagster", branch = "chore/direct-dependencies" }
+kedro-dagster = { git = "https://github.com/gtauzin/kedro-dagster", branch = "main" }
 
 [tool.kedro]
 project_name = "kedro-dagster-example"
