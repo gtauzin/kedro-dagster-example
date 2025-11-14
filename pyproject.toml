@@ -76,7 +76,7 @@ tests = [
 
 [tool.uv.sources]
 kedro-datasets = { git = "https://github.com/kedro-org/kedro-plugins.git", branch = "main", subdirectory = "kedro-datasets" }
-kedro-dagster = { git = "https://github.com/gtauzin/kedro-dagster", branch = "main" }
+kedro-dagster = { git = "https://github.com/gtauzin/kedro-dagster", branch = "chore/direct-dependencies" }
 
 [tool.kedro]
 project_name = "kedro-dagster-example"
@@ -120,6 +120,15 @@ ignore=[
 # It's fine not to put the import at the top of the file in the notebooks
 # folder.
 "notebooks/*"=["E402", "F821"]
+
+[tool.pytest.ini_options]
+addopts = "--color=yes"
+doctest_optionflags = "NORMALIZE_WHITESPACE"
+filterwarnings = [
+  # Ignore all Pydantic v2 deprecation warnings during tests
+  "ignore::optuna._experimental.ExperimentalWarning",
+  "ignore::pydantic.warnings.PydanticDeprecatedSince20",
+]
 
 [tool.kedro_telemetry]
 project_id = "f6961915dfa1422aad723fd0b48ff401"

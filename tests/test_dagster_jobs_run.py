@@ -1,12 +1,10 @@
 import importlib
 import os
-from pathlib import Path
 
 import pytest
 from kedro.framework.project import configure_project
 
-PROJECT_PATH = Path(__file__).resolve().parents[1]
-ALL_ENVS = ["local", "dev", "staging", "prod"]
+from .conftest import ALL_ENVS, _can_connect_to_postgres
 
 
 def _env_job_pairs():
@@ -63,17 +61,14 @@ def test_all_dagster_jobs_run_for_all_envs(env, job):
     job_def, resources = job
     job_name = job_def.name
 
-    # For dev, provide dummy Postgres env vars so oc.env resolver in credentials doesn't fail
-    if env == "dev":
-        os.environ.setdefault("POSTGRES_USER", "dev_user")
-        os.environ.setdefault("POSTGRES_PASSWORD", "dev_password")
-        os.environ.setdefault("POSTGRES_HOST", "localhost")
-        os.environ.setdefault("POSTGRES_PORT", "5432")
-        try:
-            result = job_def.execute_in_process(resources=resources, raise_on_error=False)
-        except Exception as exc:
-            pytest.skip(
-                f"Skipping job '{job_name}' in env={env} due to execution-time failure: {type(exc).__name__}: {exc}"
-            )
-        if not result.success:
-            pytest.skip(f"Dagster job '{job_name}' did not succeed in env={env}: {result}")
+    # If this is the dev environment, the model_tuning pipeline relies on an
+    # Optuna StudyDataset backed by PostgreSQL. When Postgres is not
+    # available (e.g. on a developer machine without Docker running), we
+    # skip these tests rather than fail the suite.
+    if env == "dev" and "model_tuning" in job_name:
+        # Re-evaluate the Postgres availability mark here to avoid importing
+        # the helper directly in this module.
+        if not _can_connect_to_postgres():
+            pytest.skip("Postgres is not available; skipping dev environment tests for `model_tuning`.")
+
+    job_def.execute_in_process(resources=resources, raise_on_error=True)
