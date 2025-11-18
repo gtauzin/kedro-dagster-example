@@ -1,0 +1,12 @@
+*
+
+!.git
+!README.md
+!pyproject.toml
+!packages
+!src
+!uv.lock
+!docker/pipelines.Dockerfile.dockerignore
+!conf/base
+!conf/staging
+!conf/prod

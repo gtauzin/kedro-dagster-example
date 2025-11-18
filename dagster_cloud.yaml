@@ -1,0 +1,8 @@
+locations:
+  - location_name: kedro-dagster-example-prod
+    code_source:
+      package_name: kedro_dagster_example.definitions
+    working_directory: ./src/
+    build:
+      directory: ./
+      registry: ghcr.io/gtauzin/kedro-dagster-example-prod

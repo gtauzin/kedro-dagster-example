@@ -91,7 +91,7 @@ You’ll see your Kedro datasets as Dagster assets and your pipelines as Dagster
 The `dev` environments require a Postgres database. You can run one locally using Docker:
 
 ```bash
-docker compose -f docker/pipelines-dev.docker-compose.yml up -d
+docker compose -f docker/dev.docker-compose.yml up -d
 ```
 
 Then, set the appropriate environment variables so that the Kedro catalog can connect to the database:

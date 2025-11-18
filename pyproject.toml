@@ -33,6 +33,11 @@ dependencies = [
   "psycopg2-binary>=2.9",
 ]
 
+[project.optional-dependencies]
+plus = [
+  "dagster-cloud",
+]
+
 [project.scripts]
 "kedro-dagster-example" = "kedro_dagster_example.__main__:main"
 
