@@ -1594,8 +1594,8 @@ wheels = [
 
 [[package]]
 name = "kedro-dagster"
-version = "0.3.1.dev6+g1e2de22ff"
-source = { git = "https://github.com/gtauzin/kedro-dagster?branch=main#1e2de22ffde55976f7fd28e545113c8484b4910c" }
+version = "0.3.1.dev7+ga96b1b3ee"
+source = { git = "https://github.com/gtauzin/kedro-dagster?branch=feat%2Fmlflow-run-links#a96b1b3ee40e725ef61c223df3895bb149f59c2f" }
 dependencies = [
     { name = "dagster" },
     { name = "dagster-dg-cli" },
@@ -1670,8 +1670,8 @@ requires-dist = [
     { name = "dagster-cloud", marker = "extra == 'plus'" },
     { name = "dagster-mlflow" },
     { name = "kedro", specifier = "==1.0.0" },
-    { name = "kedro-dagster", git = "https://github.com/gtauzin/kedro-dagster?branch=main" },
-    { name = "kedro-datasets", extras = ["optuna-studydataset", "pandas-csvdataset", "pandas-exceldataset", "pandas-parquetdataset"], git = "https://github.com/kedro-org/kedro-plugins.git?subdirectory=kedro-datasets&branch=main" },
+    { name = "kedro-dagster", git = "https://github.com/gtauzin/kedro-dagster?branch=feat%2Fmlflow-run-links" },
+    { name = "kedro-datasets", extras = ["optuna-studydataset", "pandas-csvdataset", "pandas-exceldataset", "pandas-parquetdataset"], specifier = ">=9.0" },
     { name = "kedro-mlflow", specifier = ">=0.14.3" },
     { name = "mlflow", specifier = ">=2.20" },
     { name = "optuna", specifier = ">=4.2" },
@@ -1719,10 +1719,14 @@ viz = [
 [[package]]
 name = "kedro-datasets"
 version = "9.0.0"
-source = { git = "https://github.com/kedro-org/kedro-plugins.git?subdirectory=kedro-datasets&branch=main#eb2279354c633e8edd31b5494f4bbe18565778a1" }
+source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "kedro" },
     { name = "lazy-loader" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/0e/8d/fe87ab8e6e4874170e4673378d962187f2a8a65c8a90463a6ec60e870752/kedro_datasets-9.0.0.tar.gz", hash = "sha256:eb2b03a63b16d4dd5b23ecda3d192e55e3608e168c1706141fe4e05f094e8b68", size = 173183 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c0/f8/fbd56725866687f41349816b4a200bc9be8896a1a7d213af4ccc9d58f612/kedro_datasets-9.0.0-py3-none-any.whl", hash = "sha256:c285c1daf6872370cf5a9735a65bd67b6bec75a2c734730aa349b0f42b3f5b28", size = 283419 },
 ]
 
 [package.optional-dependencies]

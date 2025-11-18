@@ -20,7 +20,7 @@ readme.file = "README.md"
 requires-python = ">=3.13, <3.14"
 dependencies = [
   "kedro==1.0.0",
-  "kedro-datasets[pandas-csvdataset, pandas-exceldataset, pandas-parquetdataset, optuna-studydataset]>=7.0",
+  "kedro-datasets[pandas-csvdataset, pandas-exceldataset, pandas-parquetdataset, optuna-studydataset]>=9.0",
   "kedro-dagster>=0.3.0",
   "kedro-mlflow>=0.14.3",
   "dagster==1.12.0",
@@ -80,8 +80,7 @@ tests = [
 ]
 
 [tool.uv.sources]
-kedro-datasets = { git = "https://github.com/kedro-org/kedro-plugins.git", branch = "main", subdirectory = "kedro-datasets" }
-kedro-dagster = { git = "https://github.com/gtauzin/kedro-dagster", branch = "main" }
+kedro-dagster = { git = "https://github.com/gtauzin/kedro-dagster", branch = "feat/mlflow-run-links" }
 
 [tool.kedro]
 project_name = "kedro-dagster-example"

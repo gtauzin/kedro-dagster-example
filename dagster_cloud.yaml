@@ -1,3 +1,6 @@
+instance_class:
+  cloud: eu
+
 locations:
   - location_name: kedro-dagster-example-prod
     code_source:
