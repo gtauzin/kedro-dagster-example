@@ -35,25 +35,7 @@ jobs:
       - name: Sync uv
         run: uv sync --group viz
 
-      # This action does not support uv:
-      # - name: Deploy Kedro-Viz to GH Pages
-      #   uses: kedro-org/publish-kedro-viz@v2
-      # Copying the action steps directly below
-
-      - name: Create build directory
-        run: |
-          if !(uv run kedro viz build --include-hooks |& tee /dev/stderr | grep -i -q "Success!"); then
-            exit 1
-          fi
-        shell: bash
-
-      - name: Upload GitHub Pages artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Deploy Kedro-Viz to GH Pages
+        uses: kedro-org/publish-kedro-viz@v3
         with:
-          name: github-pages-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}
-          path: "${{ github.workspace }}/build"
-
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
-        with:
-          artifact_name: github-pages-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}
+          python_manager: "uv"
