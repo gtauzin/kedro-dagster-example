@@ -11,10 +11,10 @@ FROM alpine:3.13 AS base
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
 # ------------------------------------------------------------------
-# 1️⃣2️⃣ Install runtime packages we need later (git + bash)
+# 1️⃣2️⃣ Install runtime packages we need later (bash)
 # ------------------------------------------------------------------
 RUN apk update && \
-    apk add --no-cache git bash
+    apk add --no-cache bash
 
 # ------------------------------------------------------------------
 # 1️⃣3️⃣ Environment variables that affect Python/uv behaviour
@@ -72,7 +72,7 @@ ENV VIRTUAL_ENV=/usr/app/.venv \
     PATH="/usr/app/.venv/bin:${PATH}"
 
 # ------------------------------------------------------------------
-# 3️⃣2️⃣ Optional: expose the branch name and Kedro env at runtime
+# 3️⃣2️⃣ Expose the branch name and Kedro env at runtime
 # ------------------------------------------------------------------
 ENV BRANCH="main"
 ENV KEDRO_ENV="prod"
@@ -85,18 +85,12 @@ COPY . /usr/app/
 COPY --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 
 # ------------------------------------------------------------------
-# 3️⃣4️⃣ Git safety – tell git the directory is trusted (useful when
-#       the container runs `git` commands later).
-# ------------------------------------------------------------------
-RUN git config --global --add safe.directory /usr/app
-
-# ------------------------------------------------------------------
-# 3️⃣5️⃣ Install the *application* itself (no dev deps, no editable mode)
+# 3️⃣4️⃣ Install the *application* itself (no dev deps, no editable mode)
 # ------------------------------------------------------------------
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --locked --no-dev --no-editable
 
 # ------------------------------------------------------------------
-# 3️⃣6️⃣ Drop privileges – run everything as the non‑root user we created.
+# 3️⃣5️⃣ Drop privileges – run everything as the non‑root user we created.
 # ------------------------------------------------------------------
 USER kedro_user
