@@ -29,7 +29,7 @@ This repo builds on the [Kedro Spaceflights tutorial](https://docs.kedro.org/en/
 Additionally, this project makes use of:
 
 - [`mlflow`](https://mlflow.org/) via the [`kedro-mlflow`](https://github.com/Galileo-Galilei/kedro-mlflow) plugin for experiment tracking, model registry, and deployment.
-- [`optuna`](https://optuna.org/) through a new Kedro dataset. See the `optuna.StudyDataset` [documentation](https://docs.kedro.org/projects/kedro-datasets/en/latest/api/kedro_datasets_experimental.optuna.StudyDataset.html) for details.
+- [`optuna`](https://optuna.org/) through a new Kedro dataset. See the `optuna.StudyDataset` [documentation](https://docs.kedro.org/projects/kedro-datasets/en/kedro-datasets-9.0.0/api/kedro_datasets_experimental/optuna.StudyDataset/) for details.
 
 A variety of Kedro environments highlight how a Kedro + Dagster deployment might look. We assume that each pipeline can be at a different stage—under development, in staging, or in production. The logic for separating dynamic pipelines across environments lives in `settings.py` and `pipeline_registry.py`. The available environments are:
 
@@ -83,8 +83,7 @@ assuming KEDRO_ENV is an environmental variable set to your target environment (
 To explore the pipelines in the Dagster UI:
 
 ```bash
-export KEDRO_ENV=local
-kedro dagster dev
+kedro dagster dev --env <KEDRO_ENV>
 ```
 
 You’ll see your Kedro datasets as Dagster assets and your pipelines as Dagster jobs.
@@ -92,7 +91,7 @@ You’ll see your Kedro datasets as Dagster assets and your pipelines as Dagster
 The `dev` environments require a Postgres database. You can run one locally using Docker:
 
 ```bash
-docker compose -f docker/pipelines-dev.docker-compose.yml up -d
+docker compose -f docker/dev.docker-compose.yml up -d
 ```
 
 Then, set the appropriate environment variables so that the Kedro catalog can connect to the database:
@@ -107,8 +106,7 @@ export POSTGRES_PORT=5432
 Finally, run the Dagster UI for the desired environment:
 
 ```bash
-export KEDRO_ENV=dev
-kedro dagster dev
+kedro dagster dev --env dev
 ```
 
 ### Deploying the Pipelines

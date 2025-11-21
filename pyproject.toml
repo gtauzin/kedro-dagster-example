@@ -17,13 +17,13 @@ maintainers = [
 description = "Kedro project for showcasing the `kedro-dagster` plugin."
 readme.content-type = "text/markdown"
 readme.file = "README.md"
-requires-python = ">=3.10, <3.14"
+requires-python = ">=3.13, <3.14"
 dependencies = [
   "kedro==1.0.0",
-  "kedro-datasets[pandas-csvdataset, pandas-exceldataset, pandas-parquetdataset, optuna-studydataset]>=7.0",
-  "kedro-dagster>=0.3.0",
+  "kedro-datasets[pandas-csvdataset, pandas-exceldataset, pandas-parquetdataset, optuna-studydataset]>=9.0",
+  "kedro-dagster>=0.4.0",
   "kedro-mlflow>=0.14.3",
-  "dagster==1.12.0",
+  "dagster>=1.12.0",
   # Pinning dagster versions pins dagster integrations' versions too
   "dagster-mlflow",
   "scikit-learn>=1.5",
@@ -31,6 +31,11 @@ dependencies = [
   "optuna>=4.2",
   "optuna-integration>=4.2",
   "psycopg2-binary>=2.9",
+]
+
+[project.optional-dependencies]
+plus = [
+  "dagster-cloud",
 ]
 
 [project.scripts]
@@ -74,9 +79,6 @@ tests = [
   "pytest-mock>=3.14",
 ]
 
-[tool.uv.sources]
-kedro-datasets = { git = "https://github.com/kedro-org/kedro-plugins.git", branch = "main", subdirectory = "kedro-datasets" }
-
 [tool.kedro]
 project_name = "kedro-dagster-example"
 package_name = "kedro_dagster_example"
@@ -119,6 +121,15 @@ ignore=[
 # It's fine not to put the import at the top of the file in the notebooks
 # folder.
 "notebooks/*"=["E402", "F821"]
+
+[tool.pytest.ini_options]
+addopts = "--color=yes"
+doctest_optionflags = "NORMALIZE_WHITESPACE"
+filterwarnings = [
+  # Ignore all Pydantic v2 deprecation warnings during tests
+  "ignore::optuna._experimental.ExperimentalWarning",
+  "ignore::pydantic.warnings.PydanticDeprecatedSince20",
+]
 
 [tool.kedro_telemetry]
 project_id = "f6961915dfa1422aad723fd0b48ff401"

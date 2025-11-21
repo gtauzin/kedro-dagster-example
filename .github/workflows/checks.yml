@@ -22,7 +22,7 @@ env:
 jobs:
   # Cross-platform checks without DB service (services are not supported on macOS/Windows runners)
   ckeck:
-    name: Coverage tests for ${{ matrix.python-version }} on ${{ matrix.os }}
+    name: Linter and tests for ${{ matrix.python-version }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false

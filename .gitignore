@@ -192,3 +192,6 @@ mlruns
 
 # logs
 *.log*
+
+# .env
+.env

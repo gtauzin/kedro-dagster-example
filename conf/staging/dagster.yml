@@ -1,9 +1,28 @@
-dev:
-  log_level: "info"
-  log_format: "colored"
-  port: "3000"
-  host: "127.0.0.1"
-  live_data_poll_rate: "2000"
+loggers:
+  file_logger:
+    log_level: INFO
+    formatters:
+      simple:
+        format: "[%(asctime)s] %(levelname)s - %(message)s"
+    handlers:
+      - class: logging.handlers.RotatingFileHandler
+        level: INFO
+        formatter: simple
+        filename: dagster_run_info.log
+        maxBytes: 10485760 # 10MB
+        backupCount: 20
+        encoding: utf8
+        delay: True
+
+  console_logger:
+    log_level: INFO
+    formatters:
+      simple:
+        format: "[%(asctime)s] %(levelname)s - %(message)s"
+    handlers:
+      - class: logging.StreamHandler
+        stream: ext://sys.stdout
+        formatter: simple
 
 executors:
   sequential:
@@ -25,6 +44,7 @@ jobs:
       - reviews_predictor
       tags:
       - candidate1
+    loggers: ["file_logger", "console_logger"]
     executor: multiprocessing
     schedule: daily
 
@@ -35,6 +55,7 @@ jobs:
       - reviews_predictor
       tags:
       - candidate1
+    loggers: ["file_logger", "console_logger"]
     executor: sequential
     schedule: daily
 
@@ -45,6 +66,7 @@ jobs:
       - price_predictor
       tags:
       - candidate1
+    loggers: ["file_logger", "console_logger"]
     executor: multiprocessing
     schedule: daily
 
@@ -55,5 +77,6 @@ jobs:
       - price_predictor
       tags:
       - candidate1
+    loggers: ["file_logger", "console_logger"]
     executor: sequential
     schedule: daily

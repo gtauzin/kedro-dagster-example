@@ -29,6 +29,7 @@ companies_dagster_partition:
         3.csv: 30.csv
   metadata:
       description: "Dagster partition of raw CSV file containing companies' data."
+      group_name: initial
 
 reviews_partition:
   type: partitions.PartitionedDataset
@@ -37,6 +38,7 @@ reviews_partition:
     type: pandas.CSVDataset
   metadata:
       description: "Partition of raw CSV file containing reviews' data."
+      group_name: initial
 
 shuttles_partition:
   type: partitions.PartitionedDataset
@@ -45,3 +47,4 @@ shuttles_partition:
     type: pandas.CSVDataset
   metadata:
       description: "Partition of raw CSV file containing shuttles' data."
+      group_name: initial
